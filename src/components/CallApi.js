@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+axios.defaults.withCredentials = true;
 const BASE_URL = 'http://firstrealestate-001-site1.anytempurl.com/api';
 // axios.defaults.headers.common['referrerPolicy'] = 'unsafe-url';
 axios.defaults.headers.common['referrerPolicy'] = 'no-referrer';
