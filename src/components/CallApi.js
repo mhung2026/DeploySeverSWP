@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://firstrealestate-001-site1.anytempurl.com/api';
+const BASE_URL = 'https://firstrealestate-001-site1.anytempurl.com/api';
 
 // A utility function to handle API requests with `withCredentials` option and additional headers included by default
 const fetchApiData = async (url) => {
@@ -22,11 +22,11 @@ const fetchApiData = async (url) => {
 class CallApi {
     // Your class methods remain unchanged
     static getAllReservations() {
-        return fetchApiData(`${BASE_URL}/reservation/GetAllReservation/`);
+        return fetchApiData(`${BASE_URL}/reservation/GetAllReservation`);
     }
 
     static getAllRealEstate() {
-        return fetchApiData(`${BASE_URL}/invester/getAllRealEstate/`);
+        return fetchApiData(`${BASE_URL}/invester/getAllRealEstate`);
     }
 
     static getAllAccount() {
