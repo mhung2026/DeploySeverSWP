@@ -8,7 +8,7 @@ axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'Origin, X-Reque
 const fetchApiData = async (url) => {
     try {
         const response = await axios.get(url, {
-            withCredentials: false, // Keep this if you need to send requests without cookies/session data
+            withCredentials: true, // Keep this if you need to send requests without cookies/session data
            
         });
         return response.data;
