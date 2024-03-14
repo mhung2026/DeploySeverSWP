@@ -1,0 +1,43 @@
+.sidebar {
+    position: fixed; /* Cố định vị trí thanh bên */
+    top: 70px; /* Dán lên trên cùng của màn hình */
+    left: 0; /* Dán sang trái của màn hình */
+    width: 250px; /* Chiều rộng cố định */
+    height: 100%; /* Chiều cao toàn bộ trang */
+    background-color: #f4f4f4; /* Màu nền */
+    overflow-x: hidden; /* Ẩn thanh cuộn ngang nếu cần */
+    padding-top: 20px; /* Khoảng cách từ đầu trang */
+    width: 20%;
+}
+
+.sidebar .welcome, .sidebar .balance {
+    padding: 10px;
+    margin-left: 20px;
+    font-size: 16px; /* Kích thước chữ */
+}
+
+.welcome{
+    font-weight: bold;
+}
+
+.menu-list {
+    list-style-type: none; /* Bỏ dấu chấm trước các item */
+    padding: 0;
+}
+
+.menu-item {
+    padding: 10px;
+    margin-top: 10px; /* Khoảng cách giữa các menu */
+    margin-left: 20px; /* Khoảng cách từ cạnh trái */
+}
+
+.menu-item a {
+    text-decoration: none; /* Bỏ gạch chân của liên kết */
+    font-size: 18px; /* Kích thước chữ của liên kết */
+    color: black; /* Màu chữ */
+    display: block; /* Hiển thị dạng khối */
+}
+
+.menu-item a:hover {
+    background-color: #ddd; /* Màu nền khi hover */
+}
