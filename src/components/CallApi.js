@@ -1,15 +1,15 @@
 import axios from 'axios';
 
 const BASE_URL = 'http://firstrealestate-001-site1.anytempurl.com/api';
-
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+axios.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE';
+axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept';
 // A utility function to handle API requests
 const fetchApiData = async (url) => {
     try {
         const response = await axios.get(url, {
             withCredentials: false, // Keep this if you need to send requests without cookies/session data
-            headers: {
-                'Content-Type': 'application/json' // Keep headers that are actually useful for your requests
-            }
+           
         });
         return response.data;
     } catch (error) {
