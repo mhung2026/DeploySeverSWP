@@ -7,7 +7,10 @@ const fetchApiData = async (url) => {
     try {
         const response = await axios.get(url, { 
             withCredentials: false,
-            
+            headers: {
+                'Access-Control-Allow-Origin': '*', 
+                'Content-Type': 'application/json'
+            }
         });
         return response.data;
     } catch (error) {
