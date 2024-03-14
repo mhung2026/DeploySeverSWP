@@ -6,11 +6,8 @@ const BASE_URL = 'http://firstrealestate-001-site1.anytempurl.com/api';
 const fetchApiData = async (url) => {
     try {
         const response = await axios.get(url, { 
-            withCredentials: true,
-            headers: {
-                'Access-Control-Allow-Origin': '*', 
-                'Content-Type': 'application/json'
-            }
+            withCredentials: false,
+            
         });
         return response.data;
     } catch (error) {
