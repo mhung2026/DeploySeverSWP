@@ -1,15 +1,14 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://firstrealestate-001-site1.anytempurl.com/api';
+const BASE_URL = 'http://firstrealestate-001-site1.anytempurl.com/api';
 
-// A utility function to handle API requests with `withCredentials` option and additional headers included by default
+// A utility function to handle API requests
 const fetchApiData = async (url) => {
     try {
-        const response = await axios.get(url, { 
-            withCredentials: false,
+        const response = await axios.get(url, {
+            withCredentials: false, // Keep this if you need to send requests without cookies/session data
             headers: {
-                'Access-Control-Allow-Origin': '*', 
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json' // Keep headers that are actually useful for your requests
             }
         });
         return response.data;
@@ -18,7 +17,6 @@ const fetchApiData = async (url) => {
         return null;
     }
 };
-
 class CallApi {
     // Your class methods remain unchanged
     static getAllReservations() {
