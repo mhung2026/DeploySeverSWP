@@ -22,11 +22,11 @@ const fetchApiData = async (url) => {
 class CallApi {
     // Your class methods remain unchanged
     static getAllReservations() {
-        return fetchApiData(`${BASE_URL}/reservation/GetAllReservation`);
+        return fetchApiData(`${BASE_URL}/reservation/GetAllReservation/`);
     }
 
     static getAllRealEstate() {
-        return fetchApiData(`${BASE_URL}/invester/getAllRealEstate`);
+        return fetchApiData(`${BASE_URL}/invester/getAllRealEstate/`);
     }
 
     static getAllAccount() {
