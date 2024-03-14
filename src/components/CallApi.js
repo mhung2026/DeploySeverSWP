@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const BASE_URL = 'http://firstrealestate-001-site1.anytempurl.com/api';
+axios.defaults.headers.common['referrerPolicy'] = 'unsafe-url';
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 axios.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE';
 axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept';
