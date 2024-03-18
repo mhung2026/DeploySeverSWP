@@ -88,9 +88,10 @@ export default function Header() {
                                         </div>
                                     </div>
                                 ) : (
-                                    <Link class='login-link' to='/dangnhap'>Đăng Nhập</Link>
-                                )}{!token && (
-                                    <Link class='register-link' to='/dangki'>Đăng Ký</Link>
+                                    <div>
+                                        <Link class='login-link' to='/dangnhap'>Đăng Nhập</Link>
+                                        <Link class='register-link' to='/dangki'>Đăng Ký</Link>
+                                    </div>
                                 )}
                             </div>
                         </div>

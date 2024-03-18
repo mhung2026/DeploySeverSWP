@@ -13,7 +13,7 @@ export default function AgencyThongTinChiTiet() {
         city: '',
     });
     useEffect(() => {
-        axios.get(`http://firstrealestate-001-site1.anytempurl.com/api/invester/getAllRealEstate`)
+        axios.get(`http://swprealestatev2-001-site1.etempurl.com/api/invester/getAllRealEstate`)
             .then(response => {
                 const estateWithInvestorId5 = response.data.find(estate => estate.investorId === 6 && estate.id === parseInt(id));
                 setRealEstate(estateWithInvestorId5);
@@ -27,7 +27,7 @@ export default function AgencyThongTinChiTiet() {
         // Check if locationId exists
         if (editedRealEstate.locationId) {
             // Fetch location data based on locationId
-            axios.get(`http://firstrealestate-001-site1.anytempurl.com/api/location/getAllLocation`)
+            axios.get(`http://swprealestatev2-001-site1.etempurl.com/api/location/getAllLocation`)
                 .then(locationResponse => {
                     // Find location data based on locationId
                     const locationInfo = locationResponse.data.find(location => location.id === editedRealEstate.locationId);
@@ -83,7 +83,7 @@ export default function AgencyThongTinChiTiet() {
 
         console.log("Data to be PUT:", updatedRealEstate);
 
-        axios.put(`http://firstrealestate-001-site1.anytempurl.com/api/invester/updatePostById/${realEstate.id}`, updatedRealEstate)
+        axios.put(`http://swprealestatev2-001-site1.etempurl.com/api/invester/updatePostById/${realEstate.id}`, updatedRealEstate)
             .then(response => {
                 console.log("Successfully saved edited real estate:", response.data);
                 setEditing(false);

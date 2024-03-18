@@ -183,7 +183,7 @@ const Home = () => {
             console.log('Ward:', selectedLocation.wardName);
             console.log('Data to submit:', dataToSubmit);
             await axios.post(
-                'http://firstrealestate-001-site1.anytempurl.com/api/invester/createNewRealEstate/' + userLoginBasicInformationDto.accountId,
+                'http://swprealestatev2-001-site1.etempurl.com/api/invester/createNewRealEstate/' + userLoginBasicInformationDto.accountId,
                 jsonString,
                 {
                     headers: {
@@ -201,7 +201,7 @@ const Home = () => {
     useEffect(() => {
         const fetchDirects = async () => {
             try {
-                const response = await axios.get('http://firstrealestate-001-site1.anytempurl.com/api/direct/getAllDirect');
+                const response = await axios.get('http://swprealestatev2-001-site1.etempurl.com/api/direct/getAllDirect');
                 setDirects(response.data); // Lưu trữ dữ liệu từ API vào state
             } catch (error) {
                 console.error('Error fetching directs:', error.message);
@@ -361,7 +361,7 @@ const Home = () => {
 
     const fetchImages = async () => {
         try {
-            const response = await axios.get("http://firstrealestate-001-site1.anytempurl.com/api/invester/getAllRealEstate");
+            const response = await axios.get("http://swprealestatev2-001-site1.etempurl.com/api/invester/getAllRealEstate");
             const imageUrls = response.data;
             setUr(imageUrls[0]);
             setUrl(imageUrls[1]);

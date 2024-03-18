@@ -20,6 +20,8 @@ export default function Customerthongtinchitiet() {
     const userLoginBasicInformationDto = JSON.parse(localStorage.getItem('userLoginBasicInformationDto'));
     const [selectedImage, setSelectedImage] = useState(null);
     const [showBookingInfoPopup, setShowBookingInfoPopup] = useState(false);
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+    const [isUnlocking, setIsUnlocking] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -62,7 +64,13 @@ export default function Customerthongtinchitiet() {
 
         fetchReservationTimes();
     }, [selectedDate]);
-
+    const unlockButton = () => {
+        setIsUnlocking(true);
+        setTimeout(() => {
+            setIsButtonDisabled(false);
+            setIsUnlocking(false);
+        }, 2000);
+    };
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         const year = date.getFullYear();
@@ -97,41 +105,47 @@ export default function Customerthongtinchitiet() {
     };
 
     const handleBooking = async () => {
-        if (selectedDate && selectedTime && userLoginBasicInformationDto && userLoginBasicInformationDto.accountId && parsedId) {
-            const formattedDate = formatISO(selectedDate, { representation: 'complete' });
-
-            // Fetch existing reservations for the user
-            try {
-                const existingReservations = await CallApi.getAllReservations();
-                const hasExistingReservation = existingReservations.some(reservation =>
-                    reservation.customerId === userLoginBasicInformationDto.accountId && reservation.status === 1
-                );
-
-                // Check if the user already has a reservation for the selected date
-                if (hasExistingReservation) {
-                    toast.error('Bạn đã có một đặt chỗ vào ngày này. Vui lòng chọn ngày khác.');
-                    return; // Exit if there's an existing reservation
+        if (!isButtonDisabled) {
+            // Khóa nút và thực hiện hành động
+            setIsButtonDisabled(true);
+    
+            if (selectedDate && selectedTime && userLoginBasicInformationDto && userLoginBasicInformationDto.accountId && parsedId) {
+                const formattedDate = formatISO(selectedDate, { representation: 'complete' });
+                try {
+                    const existingReservations = await CallApi.getAllReservations();
+                    const hasExistingReservation = existingReservations.some(reservation =>
+                        reservation.customerId === userLoginBasicInformationDto.accountId && reservation.status === 1
+                    );
+    
+                    if (hasExistingReservation) {
+                        toast.error('Bạn đã đặt đơn rồi vui lòng chờ xác nhận hoặc hủy đơn cũ trước khi đặt đơn mới.');
+                        setIsButtonDisabled(false); // Mở khóa nút nếu có lỗi
+                        return;
+                    }
+    
+                    const reservationData = {
+                        bookingDate: formattedDate,
+                        bookingTime: selectedTime,
+                        customerId: userLoginBasicInformationDto.accountId,
+                        realEstateId: parsedId
+                    };
+    
+                    const response = await axios.post('http://swprealestatev2-001-site1.etempurl.com/api/reservation/CreateReservation', reservationData);
+                    toast.success('Đặt chỗ thành công!');
+                    unlockButton(); // Gọi hàm để mở khóa nút
+                    toast.info('Vui lòng không spam'); // Thêm thông báo vui lòng không spam
+                } catch (error) {
+                    console.error('Error during reservation process:', error);
+                    toast.error('Đã xảy ra lỗi khi kiểm tra hoặc tạo đặt chỗ. Vui lòng thử lại sau.');
+                    setIsButtonDisabled(false); // Mở khóa nút nếu có lỗi
                 }
-
-                // Proceed to create a new reservation if there's no existing reservation
-                const reservationData = {
-                    bookingDate: formattedDate, // Sử dụng ngày đã chọn
-                    bookingTime: selectedTime,
-                    customerId: userLoginBasicInformationDto.accountId,
-                    realEstateId: parsedId
-                };
-
-                const response = await axios.post('http://firstrealestate-001-site1.anytempurl.com/api/reservation/CreateReservation', reservationData);
-                toast.success('Đặt chỗ thành công!');
-
-            } catch (error) {
-                console.error('Error during reservation process:', error);
-                toast.error('Đã xảy ra lỗi khi kiểm tra hoặc tạo đặt chỗ. Vui lòng thử lại sau.');
+            } else {
+                toast.error('Vui lòng điền đầy đủ thông tin đặt lịch.');
+                setIsButtonDisabled(false); // Mở khóa nút nếu có lỗi
             }
-        } else {
-            toast.error('Vui lòng điền đầy đủ thông tin đặt lịch.');
         }
     };
+    
 
     const tenNgayKeTiep = Array.from({ length: 10 }, (_, index) => addDays(new Date(), index + 1));
 
@@ -286,14 +300,16 @@ export default function Customerthongtinchitiet() {
                                             </>
                                         )} */}
                                     </select>
-                                    <button className="booking-btn" onClick={handleBooking}>Gửi dữ liệu đặt lịch</button>
+                                    <button className="booking-btn" onClick={handleBooking} disabled={isButtonDisabled}>
+                                        Gửi dữ liệu đặt lịch
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     )}
                 </div>
             ) : (
-                <p>Loading...</p>
+                <p></p>
             )}
             <ToastContainer />
         </div>

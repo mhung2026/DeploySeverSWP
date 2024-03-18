@@ -77,7 +77,7 @@ export default function AdminAllReservation() {
         };
 
         try {
-            await axios.put(`http://firstrealestate-001-site1.anytempurl.com/api/reservation/UpdateReservation/${res.id}`, payload);
+            await axios.put(`http://swprealestatev2-001-site1.etempurl.com/api/reservation/UpdateReservation/${res.id}`, payload);
             toast.success('Cập nhật thành công!', {
                 onClose: () => window.location.reload() // Reload trang sau khi toast đóng
             });

@@ -1,63 +1,116 @@
+// CallApi.js
 import axios from 'axios';
-axios.defaults.withCredentials = true;
-const BASE_URL = 'http://firstrealestate-001-site1.anytempurl.com/api';
-// axios.defaults.headers.common['referrerPolicy'] = 'unsafe-url';
-axios.defaults.headers.common['referrerPolicy'] = 'no-referrer';
-// axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-// axios.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE';
-// axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept';
-// A utility function to handle API requests
-const fetchApiData = async (url) => {
-    try {
-        const response = await axios.get(url, {
-            withCredentials: true, // Keep this if you need to send requests without cookies/session data
-           
-        });
-        return response.data;
-    } catch (error) {
-        console.error(`Error fetching data from: ${url}`, error);
-        return null;
-    }
-};
+
 class CallApi {
-    // Your class methods remain unchanged
-    static getAllReservations() {
-        return fetchApiData(`${BASE_URL}/reservation/GetAllReservation`);
+    static async getAllReservations() {
+        try {
+            const response = await axios.get('http://swprealestatev2-001-site1.etempurl.com/api/admin/GetAllReservation');
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching reservation data:', error);
+            return null;
+        }
     }
-    static getAllRealEstate() {
-        return fetchApiData(`${BASE_URL}/invester/getAllRealEstate`);
+
+    static async getAllRealEstate() {
+        try {
+            const response = await axios.get('http://swprealestatev2-001-site1.etempurl.com/api/invester/getAllRealEstate');
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching real estate data:', error);
+            return null;
+        }
     }
-    static getAllAccount() {
-        return fetchApiData(`${BASE_URL}/admin/getAllAccount`);
+
+    static async getAllAccount() {
+        try {
+            const response = await axios.get('http://swprealestatev2-001-site1.etempurl.com/api/admin/getAllAccount');
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching real estate data:', error);
+            return null;
+        }
     }
-    static getAllDirect() {
-        return fetchApiData(`${BASE_URL}/direct/getAllDirect`);
+    static async getAllDirect() {
+        try {
+            const response = await axios.get('http://swprealestatev2-001-site1.etempurl.com/api/direct/getAllDirect');
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching real estate data:', error);
+            return null;
+        }
     }
-    static getAllPayMent() {
-        // Since this is an external URL, check if withCredentials is applicable or needed
-        return fetchApiData('https://script.googleusercontent.com/macros/echo?user_content_key=JPPSQ-fot0J0W9wj8yXHWkwPtJfFOgDwaki7KoH__NkhHNKlGpJ_H3L_IXiCrPzykz3xWCkiXfCDKQnQPGIdhktQJkVynN4fm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnEdV-cB_VcJYh-rThqV7h8GNPA--8n4PWO8ONvoG2LKHDSU-2n4lGV_Y-LbotBxADHIex1tkTLww5QZfCIS2f6d6sJ333kZUNtz9Jw9Md8uu&lib=Me84qEHdJVNIFNFlpsmPH2c5RV3tBGefZ');
+    static async getAllPayMent() {
+        try {
+            const response = await axios.get('https://script.googleusercontent.com/macros/echo?user_content_key=JPPSQ-fot0J0W9wj8yXHWkwPtJfFOgDwaki7KoH__NkhHNKlGpJ_H3L_IXiCrPzykz3xWCkiXfCDKQnQPGIdhktQJkVynN4fm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnEdV-cB_VcJYh-rThqV7h8GNPA--8n4PWO8ONvoG2LKHDSU-2n4lGV_Y-LbotBxADHIex1tkTLww5QZfCIS2f6d6sJ333kZUNtz9Jw9Md8uu&lib=Me84qEHdJVNIFNFlpsmPH2c5RV3tBGefZ');
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching real estate data:', error);
+            return null;
+        }
     }
-    static getAllReservationAdmin() {
-        return fetchApiData(`${BASE_URL}/admin/GetAllReservation`);
+    static async getAllReservationAdmin() {
+        try {
+            const response = await axios.get('http://swprealestatev2-001-site1.etempurl.com/api/admin/GetAllReservation');
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching real estate data:', error);
+            return null;
+        }
     }
-    static getAllRole() {
-        return fetchApiData(`${BASE_URL}/role/getAllRole`);
+    static async getAllRole() {
+        try {
+            const response = await axios.get('http://swprealestatev2-001-site1.etempurl.com/api/role/getAllRole');
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching real estate data:', error);
+            return null;
+        }
     }
-    static getAllWallet() {
-        return fetchApiData(`${BASE_URL}/Wallet/GetAllWallet`);
+    static async getAllWallet() {
+        try {
+            const response = await axios.get('http://swprealestatev2-001-site1.etempurl.com/api/Wallet/GetAllWallet');
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching real estate data:', error);
+            return null;
+        }
     }
-    static getAllWalletHistory() {
-        return fetchApiData(`${BASE_URL}/WalletHistory/GetAllWalletHistory`);
+    static async getAllWalletHistorylWallet() {
+        try {
+            const response = await axios.get('http://swprealestatev2-001-site1.etempurl.com/api/WalletHistory/GetAllWalletHistory');
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching real estate data:', error);
+            return null;
+        }
     }
-    static getAllLocation() {
-        return fetchApiData(`${BASE_URL}/location/getAllLocation`);
+    static async getAllLocation() {
+        try {
+            const response = await axios.get('http://swprealestatev2-001-site1.etempurl.com/api/location/getAllLocation');
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching real estate data:', error);
+            return null;
+        }
     }
-    static GetAllReservationTime() {
-        return fetchApiData(`${BASE_URL}/ReservationTime/GetAllReservationTime`);
+    static async GetAllReservationTime() {
+        try {
+            const response = await axios.get('http://swprealestatev2-001-site1.etempurl.com/api/ReservationTime/GetAllReservationTime');
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching real estate data:', error);
+            return null;
+        }
     }
+
+    
     static findReservationById(reservationData, id) {
         if (!reservationData) return null;
         return reservationData.find(reservation => reservation.customerId === id);
     }
+
+
 }
+
 export default CallApi;

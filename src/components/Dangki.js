@@ -69,7 +69,7 @@ export default function Dangki() {
         };
 
         try {
-            const response = await axios.post('http://firstrealestate-001-site1.anytempurl.com/api/account/TaoTaiKhoan', postData);
+            const response = await axios.post('http://swprealestatev2-001-site1.etempurl.com/api/account/TaoTaiKhoan', postData);
             console.log('Đăng ký thành công:', response.data);
             toast.success('Đăng kí thành công!', {
                 onClose: () => window.location.href = '/dangnhap'

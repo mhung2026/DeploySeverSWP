@@ -8,6 +8,8 @@ class FormValidation {
                 return false;
             }
         }
+      
+        
         if (/\s/.test(formData.matKhau)) {
             toast.error('Mật khẩu không được chứa khoảng trắng.');
             return false;

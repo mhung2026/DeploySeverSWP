@@ -10,7 +10,7 @@ export default function Quanlitindang() { // Sửa tên component thành Quanlit
     useEffect(() => {
         const fetchRealEstates = async () => {
             try {
-                const response = await axios.get('http://firstrealestate-001-site1.anytempurl.com/api/invester/getAllRealEstate', {
+                const response = await axios.get('http://swprealestatev2-001-site1.etempurl.com/api/invester/getAllRealEstate', {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     }

@@ -24,7 +24,7 @@ export default function Agencytindang() {
     };
 
     useEffect(() => {
-        axios.get('http://firstrealestate-001-site1.anytempurl.com/api/invester/getAllRealEstate')
+        axios.get('http://swprealestatev2-001-site1.etempurl.com/api/invester/getAllRealEstate')
             .then(response => {
                 // Lọc tất cả các bất động sản có Investor ID: 2
                 const estatesWithInvestorId2 = response.data.filter(estate => estate.investorId === 6);

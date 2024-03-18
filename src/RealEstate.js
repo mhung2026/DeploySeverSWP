@@ -71,6 +71,7 @@ import Investordangtinmain from './components/Investor/investor-dangtinmain';
 import InvestorNaptien from './components/Investor/investor-naptien';
 import InvestorNaptienkhachhang from './components/Investor/investor-naptienkhachhang';
 import InvestorLichsugiaodich from './components/Investor/investor-lichsugiaodich';
+import InvestorMenu from './components/Investor/investor-menu';
 
 // Agency Components
 import Agencytindang from './components/Agency/agency-tindang';
@@ -89,7 +90,7 @@ import AdminRealEstateDetail from './components/Admin/admin-RealEstateDetail';
 import Adminduyettindang from './components/Admin/admin-duyettindang';
 import AdminThongtinbatongsan from './components/Admin/admin-Thongtinbatongsan';
 
-function App() {
+function RealEstate() {
   const [userInfo, setUserInfo] = useState(null);
   const [initialPageLoad, setInitialPageLoad] = useState(true);
 
@@ -157,4 +158,4 @@ function App() {
   );
 }
 
-export default App;
+export default RealEstate;

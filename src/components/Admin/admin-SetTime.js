@@ -49,7 +49,7 @@ export default function AdminSetTime() {
         }, {})
       };
       console.log("Data sent:", requestData);
-      const response = await axios.post('http://firstrealestate-001-site1.anytempurl.com/api/ReservationTime/CreateReservationTimeByAdmin', requestData);
+      const response = await axios.post('http://swprealestatev2-001-site1.etempurl.com/api/ReservationTime/CreateReservationTimeByAdmin', requestData);
       console.log(response.data);
       toast.success('Set lịch thành công!');
     } catch (error) {

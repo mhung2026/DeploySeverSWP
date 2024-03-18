@@ -53,7 +53,7 @@ export default function AdminDetailBookingAgen() {
         if (window.confirm("Bạn có chắc chắn muốn đánh dấu tất cả các đơn đặt chỗ này là đã hoàn thành không?")) {
             try {
                 await Promise.all(bookReservations.map(async reservation => {
-                    await axios.put(`http://firstrealestate-001-site1.anytempurl.com/api/reservation/UpdateReservation/${reservation.id}`, {
+                    await axios.put(`http://swprealestatev2-001-site1.etempurl.com/api/reservation/UpdateReservation/${reservation.id}`, {
                         realEstateId: reservation.realEstateId,
                         customerId: reservation.customerId,
                         status: 2,

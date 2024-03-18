@@ -9,7 +9,7 @@ export default function Customertrangchubanvila() {
   const [showAllEstates, setShowAllEstates] = useState(false); // Trạng thái để kiểm soát việc hiển thị tất cả các căn hộ
 
   useEffect(() => {
-    axios.get('http://firstrealestate-001-site1.anytempurl.com/api/invester/getAllRealEstate')
+    axios.get('http://swprealestatev2-001-site1.etempurl.com/api/invester/getAllRealEstate')
       .then(response => {
         const sortedData = response.data.sort((a, b) => b.id - a.id);
         const latestRealEstates = sortedData.slice(0, 10);
@@ -18,7 +18,7 @@ export default function Customertrangchubanvila() {
       .catch(error => {
         console.error('Error fetching data: ', error);
       });
-    axios.get('http://firstrealestate-001-site1.anytempurl.com/api/location/getAllLocation')
+    axios.get('http://swprealestatev2-001-site1.etempurl.com/api/location/getAllLocation')
       .then(response => {
         setLocations(response.data);
       })

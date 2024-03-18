@@ -17,6 +17,13 @@ export default function Agencydangtinpart2({ sendData }) {
   const [uploadingDiagram, setUploadingDiagram] = useState(false);
   const [uploadingCertificate, setUploadingCertificate] = useState(false);
 
+  const validateAndSendData = () => {
+    if (frontImages.length > 0 && leftImages.length > 0 && rightImages.length > 0 && diagramImages.length > 0 && certificateImages.length > 0) {
+      sendData(listRealEstateImageUrl);
+    } 
+  };
+
+
   const handleImageChange = async (e, setImageFunction, setUploadingFunction) => {
     const selectedImages = e.target.files;
     const newImages = [];
@@ -85,7 +92,8 @@ export default function Agencydangtinpart2({ sendData }) {
   };
 
   useEffect(() => {
-    sendData(listRealEstateImageUrl);
+    // Now calling validateAndSendData instead of sendData directly
+    validateAndSendData();
     console.log("listRealEstateImageUrl:", listRealEstateImageUrl);
   }, [listRealEstateImageUrl]);
 

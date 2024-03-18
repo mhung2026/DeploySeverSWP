@@ -14,11 +14,11 @@ export default function AgencyCustomerDetailPage() {
     const [seturlimg, setseturlimg] = useState(null);
     const [uploadingFiles, setUploadingFiles] = useState(false);
     const [filterRealEstate, setFilterRealEstate] = useState(null);
-    const [filePreviews, setFilePreviews] = useState([]); // State for storing file previews
-    const [getIdAccount, setGetIdAccount] = useState(null); // State to store getIdAccount
-    const [toastMessage, setToastMessage] = useState(''); // State for toast message
-    const [status3, setStatus3] = useState(false); // State to track if status is 3
-    const [sold, setSold] = useState(false); // State to track if property is sold
+    const [filePreviews, setFilePreviews] = useState([]);
+    const [getIdAccount, setGetIdAccount] = useState(null);
+    const [toastMessage, setToastMessage] = useState('');
+    const [status3, setStatus3] = useState(false);
+    const [sold, setSold] = useState(false);
     const userLoginBasicInformationDto = JSON.parse(localStorage.getItem('userLoginBasicInformationDto'));
 
     useEffect(() => {
@@ -29,16 +29,15 @@ export default function AgencyCustomerDetailPage() {
                 setFilterRealEstate(foundRealEstate);
                 const locationResponse = await CallApi.getAllLocation();
                 const foundLocation = locationResponse.find(location => location.id === foundRealEstate.locationId);
-                setlocationId(foundLocation)
+                setlocationId(foundLocation);
                 const getAllAccount = await CallApi.getAllAccount();
                 const foundIdAccount = getAllAccount.find(resId => resId.id === parseInt(customerId));
-                setGetIdAccount(foundIdAccount); // Set getIdAccount state
-                console.log("x", foundIdAccount)
+                setGetIdAccount(foundIdAccount);
+                console.log("x", foundIdAccount);
 
-                // Check if status is 3
-                if (foundRealEstate.status === 3) {
-                    setStatus3(true);
-                }
+                // Update status checks for 3, 4, 5, and 6
+                setStatus3(foundRealEstate.status === 3 || foundRealEstate.status === 4);
+                setSold(foundRealEstate.status === 5 || foundRealEstate.status === 6);
             } catch (error) {
                 console.error('Error fetching real estate data:', error);
             }
@@ -48,7 +47,6 @@ export default function AgencyCustomerDetailPage() {
     }, [realEstateId, customerId]);
 
     useEffect(() => {
-        // Generate file previews
         setFilePreviews(selectedFiles.map(file => {
             const src = URL.createObjectURL(file);
             return { name: file.name, src: src };
@@ -58,7 +56,6 @@ export default function AgencyCustomerDetailPage() {
     const handleFileChange = async (event) => {
         const files = event.target.files;
         const newFiles = Array.from(files);
-
         setUploadingFiles(true);
         setSelectedFiles(newFiles);
         setUploadingFiles(false);
@@ -110,7 +107,7 @@ export default function AgencyCustomerDetailPage() {
             console.log('Sending data to Swagger:', requestData);
 
             // Send data to Swagger
-            axios.put(`http://firstrealestate-001-site1.anytempurl.com/api/invester/updatePostById/${realEstateId}`, requestData)
+            axios.put(`http://swprealestatev2-001-site1.etempurl.com/api/invester/updatePostById/${realEstateId}`, requestData)
                 .then(response => {
                     console.log('Response from Swagger:', response.data);
                     setToastMessage('Đã đặt cọc thành công!');
@@ -130,10 +127,11 @@ export default function AgencyCustomerDetailPage() {
     // Function to handle marking property as sold
     const markAsSold = async () => {
         try {
+            const firebaseUrls = await Promise.all(selectedFiles.map(uploadFileToFirebase));
             // Create requestData with status 5
             const requestData = {
                 id: filterRealEstate.id,
-                firebaseId: filterRealEstate.firebaseId,
+                firebaseId: firebaseUrls.join(),
                 investorId: filterRealEstate.investorId,
                 payId: 1,
                 locationId: filterRealEstate.locationId,
@@ -158,7 +156,7 @@ export default function AgencyCustomerDetailPage() {
             console.log('Sending data to Swagger:', requestData);
 
             // Send data to Swagger
-            axios.put(`http://firstrealestate-001-site1.anytempurl.com/api/invester/updatePostById/${realEstateId}`, requestData)
+            axios.put(`http://swprealestatev2-001-site1.etempurl.com/api/invester/updatePostById/${realEstateId}`, requestData)
                 .then(response => {
                     console.log('Response from Swagger:', response.data);
                     setToastMessage('Đã đánh dấu là đã bán!');
@@ -180,16 +178,16 @@ export default function AgencyCustomerDetailPage() {
             {/* Display real estate and customer information */}
             {filterRealEstate && (
                 <div>
-                <h2>Thông tin bất động sản</h2>
-                <p>Tên: {filterRealEstate.realestateName}</p>
-                <p>Địa chỉ: {filterRealEstate.address}</p>
-                <p>Số phòng: {filterRealEstate.roomNumber}</p>
-                <p>Chiều dài: {filterRealEstate.length}</p>
-                <p>Chiều rộng: {filterRealEstate.width}</p>
-                <p>Diện tích: {filterRealEstate.area}</p>
-               
-                {/* Display other information of the real estate */}
-            </div>
+                    <h2>Thông tin bất động sản</h2>
+                    <p>Tên: {filterRealEstate.realestateName}</p>
+                    <p>Địa chỉ: {filterRealEstate.address}</p>
+                    <p>Số phòng: {filterRealEstate.roomNumber}</p>
+                    <p>Chiều dài: {filterRealEstate.length}</p>
+                    <p>Chiều rộng: {filterRealEstate.width}</p>
+                    <p>Diện tích: {filterRealEstate.area}</p>
+
+                    {/* Display other information of the real estate */}
+                </div>
             )}
             {getIdAccount && (
                 <div>
@@ -202,19 +200,14 @@ export default function AgencyCustomerDetailPage() {
             )}
             {/* Image upload section */}
             <h1>Ảnh Đặt Cọc</h1>
-            {status3 ? (
+            {sold ? (
                 <div>
-                    <span>Đã cọc</span>
+                    <span>Đã bán</span>
                     {filterRealEstate && filterRealEstate.firebaseId && (
                         <img src={filterRealEstate.firebaseId} alt="Firebase Image" />
                     )}
-                </div>
-            ) : (
-                uploadingFiles ? (
-                    <div>Loading...</div>
-                ) : (
                     <div>
-                        <input type="file" onChange={handleFileChange} multiple />
+                        {/* <input type="file" onChange={handleFileChange} multiple />
                         <div>
                             {filePreviews.map((file, index) => (
                                 <div key={index}>
@@ -222,13 +215,39 @@ export default function AgencyCustomerDetailPage() {
                                     {file.src && <img src={file.src} alt="File preview" style={{ width: "200px", height: "200px" }} />}
                                 </div>
                             ))}
-                        </div>
+                        </div> */}
                     </div>
-                )
+                </div>
+            ) : (
+                <div>
+                    {status3 && (
+                        <div>
+                            <span>Đã cọc</span>
+                            {filterRealEstate && filterRealEstate.firebaseId && (
+                                <img src={filterRealEstate.firebaseId} alt="Firebase Image" />
+                            )}
+                        </div>
+                    )}
+                    {uploadingFiles ? (
+                        <div>Loading...</div>
+                    ) : (
+                        <div>
+                            <input type="file" onChange={handleFileChange} multiple />
+                            <div>
+                                {filePreviews.map((file, index) => (
+                                    <div key={index}>
+                                        <p>{file.name}</p>
+                                        {file.src && <img src={file.src} alt="File preview" style={{ width: "200px", height: "200px" }} />}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </div>
             )}
-            {/* Conditionally render buttons based on status */}
-            {!status3 && !sold && <button onClick={sendToSwagger} style={{backgroundColor: "#35CB6D"}}>Đã cọc</button>}
-            {!status3 && !sold && <button onClick={markAsSold} style={{backgroundColor: "#35CB6D"}}>Đã bán</button>}
+            {/* Conditionally render buttons */}
+            {!status3 && !sold && <button onClick={sendToSwagger} style={{ backgroundColor: "#35CB6D" }}>Đã cọc</button>}
+            {!sold && !sold && <button onClick={markAsSold} style={{ backgroundColor: "#35CB6D" }}>Đã bán</button>}
         </div>
     );
 }

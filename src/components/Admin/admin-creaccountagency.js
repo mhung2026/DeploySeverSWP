@@ -54,7 +54,7 @@ export default function AdminCreaccountagency() {
             }
 
             // Nếu tài khoản chưa tồn tại, thực hiện tạo mới
-            const response = await axios.post('http://firstrealestate-001-site1.anytempurl.com/api/account/TaoTaiKhoan', postData);
+            const response = await axios.post('http://swprealestatev2-001-site1.etempurl.com/api/account/TaoTaiKhoan', postData);
             console.log('Đăng ký thành công:', response.data);
             toast.success('Đăng ký thành công');
             // Chuyển hướng sau khi đăng ký thành công

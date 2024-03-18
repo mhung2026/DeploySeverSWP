@@ -72,7 +72,7 @@ export default function ReservationDetailPage() {
                         bookingTime: timeSlot
                     };
                     console.log('Data to be sent:', data); // Console log the data to be sent
-                    await axios.put(`http://firstrealestate-001-site1.anytempurl.com/api/reservation/UpdateReservation/${booking.id}`, data);
+                    await axios.put(`http://swprealestatev2-001-site1.etempurl.com/api/reservation/UpdateReservation/${booking.id}`, data);
                 }));
 
                 toast.success('Điều chỉnh đặt chỗ cho đại lý thành công', {

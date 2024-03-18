@@ -41,7 +41,7 @@ export default function Customerdondat() {
                 bookingDate: reservation.bookingDate,
                 bookingTime: reservation.bookingTime
             };
-            await axios.put(`http://firstrealestate-001-site1.anytempurl.com/api/reservation/UpdateReservation/${id}`, requestData);
+            await axios.put(`http://swprealestatev2-001-site1.etempurl.com/api/reservation/UpdateReservation/${id}`, requestData);
             toast.success('Hủy đơn thành công!', {
                 onClose: () => window.location.reload() // Reload trang sau khi toast đóng
             });

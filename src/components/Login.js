@@ -27,9 +27,9 @@ const Login = () => {
                 setLoading(false);
                 return;
             }
-
+    
             const response = await axios.post(
-                'http://firstrealestate-001-site1.anytempurl.com/api/account/login',
+                'http://swprealestatev2-001-site1.etempurl.com/api/account/login',
                 {
                     email: username,
                     password: password,
@@ -37,11 +37,11 @@ const Login = () => {
                 {
                     headers: {
                         'Content-Type': 'application/json-patch+json',
-                        accept: '*/*',
+                        'accept': '*/*',
                     },
                 }
             );
-
+    
             const { accessToken, userLoginBasicInformationDto } = response.data;
             // Lưu thông tin vào localStorage
             localStorage.setItem('accessToken', accessToken);
@@ -49,7 +49,7 @@ const Login = () => {
             // Lưu token vào Auth
             saveToken(accessToken);
             console.log('Login successful. Token:', accessToken);
-
+    
             window.location.reload();
         } catch (error) {
             setLoading(false);
@@ -61,44 +61,46 @@ const Login = () => {
             }
         }
     };
+    
+    
 
     return (
-        <div class="login-wrap">
-        <div class="login-html">
-            <input id="tab-1" type="radio" name="tab" class="sign-in" checked /><label for="tab-1" class="tab">Đăng nhập</label>
-            <input id="tab-2" type="radio" name="tab" class="sign-up" /><label for="tab-2" class="tab"></label>
-            <div class="login-form">
-                <div class="sign-in-htm">
-                    <div class="group">
-                        <label for="user" class="label">Email</label>
-                        <input id="user" type="email" class="input" value={username}
-                            onChange={(e) => setUsername(e.target.value)} style={{ border: '1px solid black' }} />
-                    </div>
-                    <div class="group">
-                        <label for="pass" class="label">Mật khẩu</label>
-                        <input id="pass" type="password" class="input" data-type="password" value={password}
-                            onChange={(e) => setPassword(e.target.value)} style={{ border: '1px solid black' }} />
-                    </div>
-                    <div class="hr"></div>
-                    <div class="foot-lnk">
-                        <a href="#forgot">Quên mật khẩu?</a>
-                    </div>
-                    <div class="group">
-                        <button className='dangnhapthanhcong' onClick={handleLogin} disabled={loading} style={{ marginTop: '-56px' }}>
-                            {loading ? 'Đang đăng nhập...' : 'Đăng Nhập'}
-                        </button>
-                        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-                    </div>
-                    <div class="foot-lnk1">
-                        Bạn chưa có tài khoản? Đăng ký <a href='/dangki' style={{textDecoration: 'none', color: '#35CB6D'}}>Tại đây</a>
+        <div className="login-wrap">
+            <div className="login-html">
+                <input id="tab-1" type="radio" name="tab" className="sign-in" checked /><label htmlFor="tab-1" className="tab">Đăng nhập</label>
+                <input id="tab-2" type="radio" name="tab" className="sign-up" /><label htmlFor="tab-2" className="tab"></label>
+                <div className="login-form">
+                    <div className="sign-in-htm">
+                        <div className="group">
+                            <label htmlFor="user" className="label">Email</label>
+                            <input id="user" type="email" className="input" value={username}
+                                onChange={(e) => setUsername(e.target.value)} style={{ border: '1px solid black' }} />
+                        </div>
+                        <div className="group">
+                            <label htmlFor="pass" className="label">Mật khẩu</label>
+                            <input id="pass" type="password" className="input" data-type="password" value={password}
+                                onChange={(e) => setPassword(e.target.value)} style={{ border: '1px solid black' }} />
+                        </div>
+                        <div className="hr"></div>
+                        <div className="foot-lnk">
+                            <a href="#forgot">Quên mật khẩu?</a>
+                        </div>
+                        <div className="group">
+                            <button className='dangnhapthanhcong' onClick={handleLogin} disabled={loading} style={{ marginTop: '-56px' }}>
+                                {loading ? 'Đang đăng nhập...' : 'Đăng Nhập'}
+                            </button>
+                            {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+                        </div>
+                        <div className="foot-lnk1">
+                            Bạn chưa có tài khoản? Đăng ký <a href='/dangki' style={{textDecoration: 'none', color: '#35CB6D'}}>Tại đây</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <ToastContainer /> {/* Container để hiển thị thông báo */}
-    </div>
-);
+            <ToastContainer /> {/* Container để hiển thị thông báo */}
+        </div>
+    );
 };
 
 export default Login;

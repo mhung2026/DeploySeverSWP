@@ -57,7 +57,7 @@ export default function AdminRealEstateDetail() {
                 realEstate.status = 6; // Nếu status hiện tại là 5, chuyển thành 6
             }
 
-            const response = await axios.put(`http://firstrealestate-001-site1.anytempurl.com/api/invester/updatePostById/${id}`, realEstate);
+            const response = await axios.put(`http://swprealestatev2-001-site1.etempurl.com/api/invester/updatePostById/${id}`, realEstate);
 
             console.log('Response:', response.data);
             toast.success("Duyệt Thành Công !"); // Thông báo duyệt thành công
@@ -90,7 +90,7 @@ export default function AdminRealEstateDetail() {
             realEstate.status = 2;
 
             // Thực hiện request POST tới URL Swagger với dữ liệu realEstate
-            const response = await axios.put(`http://firstrealestate-001-site1.anytempurl.com/api/invester/updatePostById/${id}`, realEstate);
+            const response = await axios.put(`http://swprealestatev2-001-site1.etempurl.com/api/invester/updatePostById/${id}`, realEstate);
 
             console.log('Response:', response.data);
             toast.success("Real estate rejected successfully."); // Thông báo không duyệt thành công

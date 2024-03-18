@@ -72,7 +72,7 @@ export default function CustomerLichsumuaban() {
             // Set status to 2 for cancelling deposit
             realEstate.status = 2;
     
-            const response = await axios.put(`http://firstrealestate-001-site1.anytempurl.com/api/invester/updatePostById/${realEstate.id}`, realEstate);
+            const response = await axios.put(`http://swprealestatev2-001-site1.etempurl.com/api/invester/updatePostById/${realEstate.id}`, realEstate);
     
             console.log('Response:', response.data);
             console.log('Real estate deposit cancelled successfully.');

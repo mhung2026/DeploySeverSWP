@@ -17,6 +17,10 @@ export default function Agencydangtinmain() {
     const [dataFromPart1, setDataFromPart1] = useState(null);
     const [dataFromPart2, setDataFromPart2] = useState(null);
     const userLoginBasicInformationDto = JSON.parse(localStorage.getItem('userLoginBasicInformationDto'));
+
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+    const [isUnlocking, setIsUnlocking] = useState(false);
+
     const navigate = useNavigate();
 
 
@@ -38,7 +42,18 @@ export default function Agencydangtinmain() {
         fetchData();
     }, []);
 
-
+    const resetData = () => {
+        setDataFromPart1(null);
+        setDataFromPart2(null);
+        // Thêm các state khác cần reset ở đây (nếu có)
+    };
+    const unlockButton = () => {
+        setIsUnlocking(true);
+        setTimeout(() => {
+            setIsButtonDisabled(false);
+            setIsUnlocking(false);
+        }, 2000);
+    };
     const handleSendDataPart1 = (data) => {
         setDataFromPart1(data);
     };
@@ -52,12 +67,12 @@ export default function Agencydangtinmain() {
             const getIdWallet = walletData.id;
             const numericAmount = parseFloat(Amout);
             const updatedAmount = parseFloat(numericAmount - 1000);
-           
+
             const requestData = {
                 "status": true,
                 accountBalance: updatedAmount
             };
-            await axios.put('http://firstrealestate-001-site1.anytempurl.com/api/Wallet/UpdateWallet/' + getIdWallet, requestData);
+            await axios.put('http://swprealestatev2-001-site1.etempurl.com/api/Wallet/UpdateWallet/' + getIdWallet, requestData);
             toast.success('Bạn đã bị trừ 1000');
         } catch (error) {
             console.error('Error updating wallet:', error);
@@ -65,28 +80,37 @@ export default function Agencydangtinmain() {
     };
 
     const handleSendDataToSwagger = () => {
-        if (dataFromPart1) {
-            if (Amout < 1000) {
-                toast.error('Số dư không đủ để đăng tin');
+        if (!isButtonDisabled) {
+            setIsButtonDisabled(true);
+            if (dataFromPart1 && dataFromPart2) {
+                if (Amout < 1000) {
+                    toast.error('Số dư không đủ để đăng tin');
+                } else {
+                    const requestData = {
+                        ...dataFromPart1,
+                        listRealEstateImageUrl: dataFromPart2,
+                    };
+                    console.log("Data sent to Swagger:", requestData);
+                    axios.post('http://swprealestatev2-001-site1.etempurl.com/api/invester/createNewRealEstate/' + userLoginBasicInformationDto.accountId, requestData)
+                        .then(response => {
+                            console.log('Data sent to Swagger:', response.data);
+                            unlockButton(); // Gọi hàm để mở khóa nút
+                            toast.info('Vui lòng không spam'); // Thêm thông báo vui lòng không spam
+                            updateWallet(); // Gọi hàm để cập nhật ví
+                            resetData();
+                        })
+                        .catch(error => {
+                            toast.error('Vui lòng điền đầy đủ thông tin cần thiết trước khi gửi.');
+
+                            console.error('Error sending data to Swagger:', error);
+                        });
+                }
             } else {
-                const requestData = {
-                    ...dataFromPart1,
-                    listRealEstateImageUrl: dataFromPart2,
-                };
-                console.log("Data sent to Swagger:", requestData);
-                axios.post('http://firstrealestate-001-site1.anytempurl.com/api/invester/createNewRealEstate/' + userLoginBasicInformationDto.accountId, requestData)
-                    .then(response => {
-                        console.log('Data sent to Swagger:', response.data);
-                        updateWallet(); // Gọi hàm để cập nhật ví
-                    })
-                    .catch(error => {
-                        toast.error('Vui lòng điền đầy đủ thông tin cần thiết trước khi gửi.');
-                        console.error('Error sending data to Swagger:', error);
-                    });
+                toast.error('Vui lòng điền đầy đủ thông tin cần thiết trước khi gửi.');
+                console.error('No data available to send to Swagger');
+                setIsButtonDisabled(false); // Mở khóa nút nếu có lỗi
+                // Hiển thị thông báo lỗi cho người dùng
             }
-        } else {
-            console.error('No data available to send to Swagger');
-            // Hiển thị thông báo lỗi cho người dùng
         }
     };
 
@@ -101,11 +125,11 @@ export default function Agencydangtinmain() {
             />
             <div className='thongtindangtin'>
                 <div className='thongtindangtinbds'>
-                    <h2 style={{fontSize: '24px', marginBottom:'20px', marginTop: '10px'}}>Thông tin chi tiết dự án bất động sản</h2>
+                    <h2 style={{ fontSize: '24px', marginBottom: '20px', marginTop: '10px' }}>Thông tin chi tiết dự án bất động sản</h2>
                     <Agencydangtinpart1 sendData={handleSendDataPart1} />
                 </div>
                 <div className='thongtindangtinhinhanh'>
-                    <h2 style={{fontSize: '24px', marginBottom:'20px', marginTop: '10px'}}>Hình ảnh bất động sản</h2>
+                    <h2 style={{ fontSize: '24px', marginBottom: '20px', marginTop: '10px' }}>Hình ảnh bất động sản</h2>
                     <Agencydangtinpart2 sendData={handleSendDataPart2} />
                     <button onClick={handleSendDataToSwagger} style={{ backgroundColor: '#35CB6D' }}>Đăng tin</button>
                     <ToastContainer />

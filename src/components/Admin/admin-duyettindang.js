@@ -19,8 +19,9 @@ export default function Agencyduyettindang() {
     useEffect(() => {
         const fetchRealEstates = async () => {
             try {
-                const response = await axios.get('http://firstrealestate-001-site1.anytempurl.com/api/invester/getAllRealEstate');
-                const filteredRealEstates = response.data;
+                const response = await axios.get('http://swprealestatev2-001-site1.etempurl.com/api/invester/getAllRealEstate');
+                // const filteredRealEstates = response.data
+                const filteredRealEstates = response.data.filter(realEstate => realEstate.status !== 0);
                 setRealEstates(filteredRealEstates);
             } catch (error) {
                 console.error('Error fetching real estates:', error);
@@ -32,7 +33,7 @@ export default function Agencyduyettindang() {
 
     const getLocationDetails = async (locationId) => {
         try {
-            const response = await axios.get(`http://firstrealestate-001-site1.anytempurl.com/api/location/getAllLocation`);
+            const response = await axios.get(`http://swprealestatev2-001-site1.etempurl.com/api/location/getAllLocation`);
             const locationDetails = response.data.find(location => location.id === locationId);
             return locationDetails || null;
         } catch (error) {
@@ -71,44 +72,52 @@ export default function Agencyduyettindang() {
             return null;
         }
     };
-
-    const handleStatusChange = async (event, realEstateId) => {
-        const newStatus = event.target.value;
-
+    const updateStatus = async (realEstateId, newStatus) => {
         try {
+            // Get the current details of the real estate
             const realEstateToUpdate = await getRealEstateDetails(realEstateId);
-            console.log("Thông tin bất động sản trước khi thay đổi trạng thái:");
+            console.log("Real estate details before status change:");
             console.log(realEstateToUpdate);
-
-            setRealEstates(prevRealEstates => {
-                return prevRealEstates.map(realEstate => {
-                    if (realEstate.id === realEstateId) {
-                        return { ...realEstate, status: newStatus };
-                    }
-                    return realEstate;
-                });
-            });
-
-            console.log("Trạng thái sau khi thay đổi của bất động sản", realEstateId, ":", newStatus);
-
-            // Lưu thay đổi chưa lưu
+    
+            // Update the local state
+            setRealEstates(prevRealEstates => prevRealEstates.map(realEstate =>
+                realEstate.id === realEstateId ? { ...realEstate, status: newStatus } : realEstate));
+    
+            // Prepare the updated data
+            const updatedData = { ...realEstateToUpdate, status: newStatus };
+            console.log('Updating status to', newStatus, 'for real estate ID:', realEstateId);
+    
+            // API call to update the status in the backend
+            await axios.put(`http://swprealestatev2-001-site1.etempurl.com/api/invester/updatePostById/${realEstateId}`, updatedData);
+    
+            // Update unsaved changes
             setUnsavedChanges(prevUnsavedChanges => ({
                 ...prevUnsavedChanges,
-                [realEstateId]: { ...realEstateToUpdate, status: newStatus }
+                [realEstateId]: updatedData
             }));
-
-            // Thêm ID bất động sản vào danh sách chưa lưu nếu chưa có
+    
+            // Add real estate ID to unsaved list if not already present
             if (!unsavedEstateIds.includes(realEstateId)) {
                 setUnsavedEstateIds(prevIds => [...prevIds, realEstateId]);
             }
-
-            // Thông báo lưu thành công
-         
+    
+            // Success toast
+            toast.success('Status update successful!');
         } catch (error) {
-            console.error('Error fetching real estate details:', error);
-            // Thông báo lỗi khi không thể lưu
-            toast.error('Lưu trạng thái thất bại. Vui lòng thử lại sau!');
+            console.error('Error updating real estate status:', error);
+            toast.error('Failed to update status. Please try again later!');
         }
+    };
+    
+    // Handle delete by setting status to 0
+    const handleDelete = async (realEstateId) => {
+        await updateStatus(realEstateId, 0);
+    };
+    
+    // Handle status change for other statuses
+    const handleStatusChange = async (event, realEstateId) => {
+        const newStatus = event.target.value;
+        await updateStatus(realEstateId, newStatus);
     };
 
     const handleSaveData = async () => {
@@ -120,7 +129,7 @@ export default function Agencyduyettindang() {
                     console.log("Dữ liệu cần gửi đi:", updateData);
 
                     try {
-                        await axios.put(`http://firstrealestate-001-site1.anytempurl.com/api/invester/updatePostById/${estateId}`, updateData);
+                        await axios.put(`http://swprealestatev2-001-site1.etempurl.com/api/invester/updatePostById/${estateId}`, updateData);
                         console.log('Dữ liệu của bất động sản có ID', estateId, 'đã được cập nhật thành công!');
                     } catch (error) {
                         console.error('Error updating real estate data:', error);
@@ -178,6 +187,7 @@ export default function Agencyduyettindang() {
                                                     <option key={option.value} value={option.value}>{option.label}</option>
                                                 ))}
                                             </select>
+                                            <button onClick={() => handleDelete(realEstate.id)} className='delete'>Xóa</button>
                                         </td>
                                     </tr>
                                 ))}
