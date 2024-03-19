@@ -89,71 +89,96 @@ import AdminDuyetdatcoc from './components/Admin/admin-duyetdatcoc';
 import AdminRealEstateDetail from './components/Admin/admin-RealEstateDetail';
 import Adminduyettindang from './components/Admin/admin-duyettindang';
 import AdminThongtinbatongsan from './components/Admin/admin-Thongtinbatongsan';
-
+import AdminTrangchu from './components/Admin/admin-trangchu';
+import AdminXemdonhoanthanhagency from './components/Admin/admin-ViewCompleteBooking';
+import AdminSodondatcho from './components/Admin/admin-AgencyBooking';
+import AdminDieuphoiagnecy from './components/Admin/admin-DepositCustomer';
+import AdminThemthoigian from './components/Admin/admin-SetTime';
+import AdminTaotaikhoanagency from './components/Admin/admin-creaccountagency';
+import AdminAllAccount from './components/Admin/admin-allaccount';
 function RealEstate() {
   const [userInfo, setUserInfo] = useState(null);
   const [initialPageLoad, setInitialPageLoad] = useState(true);
+  const userLoginBasicInformationDto = JSON.parse(localStorage.getItem('userLoginBasicInformationDto'));
 
+  const isAdmin = userLoginBasicInformationDto && userLoginBasicInformationDto.roleName === 'Admin';
   useEffect(() => {
     setInitialPageLoad(false);
   }, []);
 
   return (
     <Router>
+
       <div className="App">
-        {/* <Header />
-        <Header2 /> */}
+      {!isAdmin && <>
+          <Header />
+          <Header2 />
+        </>}
+
         <Routes>
           {/* Public Routes */}
-          <Route path="/" element={initialPageLoad ? <Navigate to="/trangchu" replace /> : <TrangChu />} />
-          <Route path="/dangnhap" element={<><Header /><Login /></>} />{/* Đã fix xong */}
-          <Route path="/dangki" element={<><Header /><Dangki /></>} /> {/* Đã fix xong */}
-          <Route path="/logout" element={<><Header /><Header2 /><Logout /><Footer /></>} />{/* Đã fix xong */}
-          <Route path='/tintuc' element={<><Header /><Header2 /><Tintuc /><Footer /></>} />
-          <Route path='/duan' element={<><Header /><Header2 /><Duan /><Footer /></>} />
-          {/* Customer Routes */}
           
-          <Route path="/trangchu" element={<><Header /><Header2 /><TrangChu /><Footer /></>} />
-          <Route path="/gioithieu" element={<><Header /><Header2 /><Customergioithieu /></>} /> {/* Đã fix xong */}
-          <Route path="/khachhang-lichsudatdon" element={<><Header /><Header2 /><Customerdondat /></>} />
-          <Route path="/khachahng-trangthacacdondat" element={<><Header /><Header2 /><CustomerLichsudatdon /></>} />
-          <Route path="/khachhang-lichsumuaban" element={<><Header /><Header2 /><CustomerLichsumuaban /></>} />
-          <Route path="/lienhe" element={<><Header /><Header2 /><Customerlienhe /></>} /> {/* Đã fix xong */}
-          <Route path="/customerthongtintaikhoan" element={<><Header /><Header2 /><Customerthongtintaikhoan /></>} />
-          <Route path="/thongtinchitietbatdongsan/:id" element={<><Header /><Header2 /><Customerthongtinchitiet /></>} />
+          
+          <Route path="/" element={initialPageLoad ? <Navigate to="/trangchu" replace /> : <TrangChu />} />
+          <Route path="/dangnhap" element={<><Login /></>} />
+          <Route path="/dangki" element={<><Dangki /></>} />
+          <Route path="/logout" element={<><Logout /></>} />```
+          <Route path='/tintuc' element={<><Tintuc /></>} />
+          <Route path='/duan' element={<><Duan /></>} />
+          {/* Customer Routes */}
+
+          <Route path="/trangchu" element={<><TrangChu /></>} />
+          <Route path="/gioithieu" element={<><Customergioithieu /></>} />
+          <Route path="/khachhang-lichsudatdon" element={<><Customerdondat /></>} />
+          <Route path="/khachahng-trangthacacdondat" element={<><CustomerLichsudatdon /></>} />
+          <Route path="/khachhang-lichsumuaban" element={<><CustomerLichsumuaban /></>} />
+          <Route path="/lienhe" element={<><Customerlienhe /></>} />
+          <Route path="/customerthongtintaikhoan" element={<><Customerthongtintaikhoan /></>} />
+          <Route path="/thongtinchitietbatdongsan/:id" element={<><Customerthongtinchitiet /></>} />
 
 
 
           {/* Investor Routes */}
-          <Route path="/investordangtin" element={<><Header /><Header2 /><InvestorDangtin /></>} />
-          <Route path="/quanlitindang" element={<><Header /><Quanlitindang /></>} />
-          <Route path="/investorthongtintaikhoan" element={<><Header /><Investorthongtintaikhoan /></>} />
-          <Route path="/investorthongtinchitiet/:id" element={<><Header /><Header2 /><Investorthongtinchitiet /></>} />
-          <Route path="/chinhsuatindang" element={<><Header /><InvestorTindang /></>} />
-          <Route path="/investordangtinmain" element={<><Header /><Investordangtinmain /></>} />
-          <Route path="/investornaptien" element={<><Header /><Header2 /><InvestorNaptien /></>} />
-          <Route path="/naptienkhachhang" element={<><Header /><InvestorNaptienkhachhang /></>} />
-          <Route path="/lichsugiaodich" element={<><Header /><InvestorLichsugiaodich /></>} />
+          <Route path="/investordangtin" element={<><InvestorDangtin /></>} />
+          <Route path="/quanlitindang" element={<Quanlitindang />} />
+          <Route path="/investorthongtintaikhoan" element={<Investorthongtintaikhoan />} />
+          <Route path="/investorthongtinchitiet/:id" element={<Investorthongtinchitiet />} />
+          <Route path="/chinhsuatindang" element={<InvestorTindang />} />
+          <Route path="/investordangtinmain" element={<Investordangtinmain />} />
+          <Route path="/investornaptien" element={<><InvestorNaptien /></>} />
+          <Route path="/naptienkhachhang" element={<InvestorNaptienkhachhang />} />
+          <Route path="/lichsugiaodich" element={<InvestorLichsugiaodich />} />
 
           {/* Agency Routes */}
-          <Route path="/agencytindang" element={<><Header /><Header2 /><Agencytindang /></>} />
-          <Route path="/agencythongtinchitiet/:id" element={<><Header /><Header2 /><Agencythongtinchitiet /></>} />
-          <Route path="/xemlichdat" element={<><Header /><Agencyxemlichdat /></>} />
+          <Route path="/agencytindang" element={<><Agencytindang /></>} />
+          <Route path="/agencythongtinchitiet/:id" element={<Agencythongtinchitiet />} />
+          <Route path="/xemlichdat" element={<Agencyxemlichdat />} />
 
-          <Route path="/donhoanthanh" element={<><Header /><AgencyDonhoanthanh /></>} />
-          <Route path="/datconmuaban" element={<><Header /><AgencyDatcocmuaban /></>} />
-          <Route path="/customer/:customerId/realestate/:realEstateId" element={<><Header /><Header2 /><AgencyCustomerDetailPage /></>} />
+          <Route path="/donhoanthanh" element={<AgencyDonhoanthanh />} />
+          <Route path="/datconmuaban" element={<AgencyDatcocmuaban />} />
+          <Route path="/customer/:customerId/realestate/:realEstateId" element={<AgencyCustomerDetailPage />} />
 
           {/* Admin Routes */}
-          <Route path="/adminmain" element={<><Header/><Adminmain /></>} />
-          <Route path="/admin-DetailBookingAgen/:id" element={<><Header /><Header2 /><AdminDetailBookingAgen /></>} />
-          <Route path="/reservation-details/:timeSlot/:date" element={<><Header /><AdminReservationDetailPage /></>} />
-          <Route path="/duyetdatcoc" element={<><Header /><Header2 /><AdminDuyetdatcoc /></>} />
-          <Route path="/real-estate/:id" element={<><Header /><Header2 /><AdminRealEstateDetail /></>} />
-          <Route path="/thongtinbatdongsan/:id" element={<><Header /><Header2 /><AdminThongtinbatongsan /></>} />
-          <Route path="/duyettindang" element={<><Header /><Header2 /><Adminduyettindang /></>} />
+
+          <Route path="/admin-trangchu" element={<AdminTrangchu />} />
+
+
+          <Route path="/adminmain" element={<Adminmain />} />
+          <Route path="/admin-DetailBookingAgen/:id" element={<AdminDetailBookingAgen />} />
+          <Route path="/reservation-details/:timeSlot/:date" element={<AdminReservationDetailPage />} />
+          <Route path="/real-estate/:id" element={<AdminRealEstateDetail />} />
+          <Route path="/thongtinbatdongsan/:id" element={<AdminThongtinbatongsan />} />
+
+          <Route path="/admin-duyetdatcoc" element={<AdminDuyetdatcoc />} />
+          <Route path="/admin-duyettindang" element={<Adminduyettindang />} />
+          <Route path="/admin-xemdonhoanthanh" element={<AdminXemdonhoanthanhagency />} />
+          <Route path="/admin-sodondatchoagency" element={<AdminSodondatcho />} />
+          <Route path="/admin-dieuphoiagency" element={<AdminDieuphoiagnecy />} />
+          <Route path="/admin-themthoigianxemngay" element={<AdminThemthoigian />} />
+          <Route path="/admin-taotaikhoanagency" element={<AdminTaotaikhoanagency />} />
+          <Route path="/admin-tatcataikhoan" element={<AdminAllAccount />} />
         </Routes>
-        {/* <Footer /> */}
+        {!isAdmin && <Footer />}
       </div>
     </Router>
   );

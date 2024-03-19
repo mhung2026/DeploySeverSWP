@@ -15,9 +15,14 @@ const Login = () => {
     useEffect(() => {
         const accessToken = localStorage.getItem('accessToken');
         if (accessToken) {
+            const userLoginBasicInformationDto = JSON.parse(localStorage.getItem('userLoginBasicInformationDto'));
+            if (userLoginBasicInformationDto && userLoginBasicInformationDto.roleName === 'Admin') {
+            navigate('/admin-trangchu');
+            } else {
             navigate('/trangchu');
+            }
         }
-    }, [navigate]);
+        }, [navigate]);
 
     const handleLogin = async () => {
         try {
