@@ -58,13 +58,13 @@ export default function Agencydangtinpart1({ sendData }) {
 
     // Function to validate form fields
     const validateForm = () => {
-        const { realestateName, address, discription, length, width, roomNumber, price, directId } = propertyInfo;
-        if (!realestateName || !address || !discription || !length || !width || !roomNumber || !price || !directId) {
-           
+        const { realestateName, address, discription, length, width, roomNumber, price, directId, discount } = propertyInfo;
+        if (!realestateName || !address || !discription || !length || !width || !roomNumber || !price || !directId || !discount || !selectedLocation.provinceName || !selectedLocation.districtName || !selectedLocation.wardName) {
             return false;
         }
         return true;
     };
+    
 
     useEffect(() => {
         if (validateForm()) {
@@ -103,7 +103,7 @@ export default function Agencydangtinpart1({ sendData }) {
         if (regex.test(value)) {
             const integerValue = value ? parseInt(value.replace(/,/g, ''), 10) : '';
             if (!isNaN(integerValue)) {
-                const formattedValue = integerValue.toLocaleString();
+                const formattedValue = integerValue.toLocaleString().replace(/\./g, ',');
                 setPropertyInfo(prevState => ({
                     ...prevState,
                     [name]: formattedValue
