@@ -112,6 +112,7 @@ function RealEstate() {
           <Route path='/tintuc' element={<><Header /><Header2 /><Tintuc /><Footer /></>} />
           <Route path='/duan' element={<><Header /><Header2 /><Duan /><Footer /></>} />
           {/* Customer Routes */}
+          
           <Route path="/trangchu" element={<><Header /><Header2 /><TrangChu /><Footer /></>} />
           <Route path="/gioithieu" element={<><Header /><Header2 /><Customergioithieu /></>} /> {/* Đã fix xong */}
           <Route path="/khachhang-lichsudatdon" element={<><Header /><Header2 /><Customerdondat /></>} />

@@ -117,7 +117,18 @@ export default function Agencydangtinpart1({ sendData }) {
             }
         }
     };
-
+    const handleDescriptionChange = (e) => {
+        const { value } = e.target;
+        const words = value.trim().split(' ');
+        if (words.length <= 200) {
+            setPropertyInfo(prevState => ({
+                ...prevState,
+                discription: value
+            }));
+        } else {
+            toast.error('Mô tả không được vượt quá 200 kí tự');
+        }
+    };
     return (
         <div className='thongtinchitietdangtin'>
             <div className='thongtinchitietdangtindulieu'>
@@ -143,7 +154,7 @@ export default function Agencydangtinpart1({ sendData }) {
 
                 <div>
                     <span className='tieude'>Thông tin bài viết</span>
-                    <textarea name="discription" value={propertyInfo.discription} onChange={handleInputChange} placeholder="Mô tả" />
+                    <textarea name="discription" value={propertyInfo.discription} onChange={handleDescriptionChange} placeholder="Mô tả" />
                 </div>
 
                 <div>
