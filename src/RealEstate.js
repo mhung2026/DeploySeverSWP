@@ -26,19 +26,20 @@ import './css/investor-dangtinmain.css';
 import './css/investor-naptien.css';
 import './css/agency-menu.css'
 import './css/investor-lichsugiaodich.css'
-import './css/admin-agencybooking.css'
-import './css/admin-adminallreservation.css'
-import './css/admin-adminviewcompletebooking.css'
-import './css/adminSetTime.css'
-import './css/admin-allaccount.css'
-import './css/admin-adminmain.css'
-import './css/admin-admindepositcus.css'
-import './css/admin-creatyaccountagency.css'
-import './css/admin-duyetcoc.css'
-import './css/admin-admin-duyettindang.css'
-import './css/admin-reservationdetailpage.css'
-import './css/admin-realestatedetail.css'
-import './css/admin-detailbookingagen.css'
+import './css/admin.css'
+// import './css/admin-agencybooking.css'
+// import './css/admin-adminallreservation.css'
+// import './css/admin-adminviewcompletebooking.css'
+// import './css/adminSetTime.css'
+// import './css/admin-allaccount.css'
+// import './css/admin-adminmain.css'
+// import './css/admin-admindepositcus.css'
+// import './css/admin-creatyaccountagency.css'
+// import './css/admin-duyetcoc.css'
+// import './css/admin-admin-duyettindang.css'
+// import './css/admin-reservationdetailpage.css'
+// import './css/admin-realestatedetail.css'
+// import './css/admin-detailbookingagen.css'
 // Component imports
 import Header from './header-footer/Header';
 import Header2 from './header-footer/Header2';
@@ -96,6 +97,7 @@ import AdminDieuphoiagnecy from './components/Admin/admin-DepositCustomer';
 import AdminThemthoigian from './components/Admin/admin-SetTime';
 import AdminTaotaikhoanagency from './components/Admin/admin-creaccountagency';
 import AdminAllAccount from './components/Admin/admin-allaccount';
+import AdminHeader from './components/Admin/admin-header';
 function RealEstate() {
   const [userInfo, setUserInfo] = useState(null);
   const [initialPageLoad, setInitialPageLoad] = useState(true);
@@ -115,6 +117,8 @@ function RealEstate() {
           <Header2 />
         </>}
 
+        {isAdmin && <AdminHeader />}
+        
         <Routes>
           {/* Public Routes */}
           

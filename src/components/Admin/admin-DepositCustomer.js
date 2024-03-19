@@ -4,8 +4,11 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
+import Adminmenu from "./admin-menu";
+import UserAdmin from '../../list/userIAdmin';
 
 export default function AdminDepositCustomer() {
+    const userLoginBasicInformationDto = JSON.parse(localStorage.getItem('userLoginBasicInformationDto'));
     const [selectedDate, setSelectedDate] = useState(null);
     const [filteredReservations, setFilteredReservations] = useState([]);
     const navigate = useNavigate();
@@ -67,15 +70,13 @@ export default function AdminDepositCustomer() {
     };
 
     return (
-        <div style={{
-            transform: 'translate(280px, -400px)', // Moves the div to the right and up
-            maxWidth: '80%',
-            fontSize: '0.9rem',
-            margin: '20px', // Add margin if needed
-            padding: '20px', // Add padding if needed
-            background: '#fff', // Optional: Change the background
-            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' // Optional: Add some shadow for better UI
-        }}>Chọn ngày kiểm tra khách hàng đặt cọc: &nbsp;
+        <div className="admin-all-account">
+        <Adminmenu
+          userLoginBasicInformationDto={userLoginBasicInformationDto}
+          UserMenu={UserAdmin}
+        />
+        <div>
+            Chọn ngày kiểm tra khách hàng đặt cọc: &nbsp;
             <DatePicker
                 selected={selectedDate}
                 onChange={handleDateChange}
@@ -83,11 +84,7 @@ export default function AdminDepositCustomer() {
                 placeholderText="Chọn ngày"
             />
             
-            <table style={{
-                width: '100%',
-                borderCollapse: 'collapse',
-                marginTop: '20px',
-            }}>
+            <table>
                 <thead>
                     <tr>
                         <th>Thời gian</th>
@@ -111,6 +108,6 @@ export default function AdminDepositCustomer() {
                     ))}
                 </tbody>
             </table>
-        </div>
+        </div></div>
     );
 }

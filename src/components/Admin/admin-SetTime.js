@@ -5,8 +5,11 @@ import moment from 'moment';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Adminmenu from "./admin-menu";
+import UserAdmin from '../../list/userIAdmin';
 
 export default function AdminSetTime() {
+  const userLoginBasicInformationDto = JSON.parse(localStorage.getItem('userLoginBasicInformationDto'));
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedTimes, setSelectedTimes] = useState([]);
   const timeSlots = [
@@ -25,7 +28,7 @@ export default function AdminSetTime() {
   }, [selectedDate, selectedTimes]);
 
   const getTimeDisplay = (id) => {
-    switch(id) {
+    switch (id) {
       case "time1":
         return "8:00 - 10:00";
       case "time2":
@@ -38,12 +41,12 @@ export default function AdminSetTime() {
         return "";
     }
   };
-  
+
   const handleSubmit = async () => {
     try {
       const requestData = {
         date: moment(selectedDate).format('YYYY-MM-DD'),
-        ... selectedTimes.reduce((acc, id) => {
+        ...selectedTimes.reduce((acc, id) => {
           acc[id] = getTimeDisplay(id);
           return acc;
         }, {})
@@ -56,8 +59,8 @@ export default function AdminSetTime() {
       console.error('Error:', error);
       toast.error('Đã xảy ra lỗi khi gửi thông tin.');
     }
-  };  
-  
+  };
+
   const handleTimeClick = (time) => {
     const index = selectedTimes.indexOf(time);
     if (index !== -1) {
@@ -69,29 +72,34 @@ export default function AdminSetTime() {
 
   return (
     <>
-    <div className="containerxxx">
-      <h1> Thiết Lập Thời Gian Đặt Lịch</h1>
-      <div className="datepicker-container">
-        <DatePicker
-          selected={selectedDate}
-          onChange={date => setSelectedDate(date)}
-          dateFormat="yyyy-MM-dd"
+      <div className="admin-all-account">
+        <Adminmenu
+          userLoginBasicInformationDto={userLoginBasicInformationDto}
+          UserMenu={UserAdmin}
         />
-      </div>
-      <div className="time-buttons">
-        {timeSlots.map(slot => (
-          <button 
-            key={slot.id}
-            className={selectedTimes.includes(slot.id) ? "selected" : ""} 
-            onClick={() => handleTimeClick(slot.id)}
-          >
-            {slot.display}
-          </button>
-        ))}
-      </div>
-      <button onClick={handleSubmit}  class="custom-button" style={{color: "black"}}>Gửi thông tin</button>
-    </div>
+        <div>
+          <h1> Thiết Lập Thời Gian Đặt Lịch</h1>
+          <div className="datepicker-container">
+            <DatePicker
+              selected={selectedDate}
+              onChange={date => setSelectedDate(date)}
+              dateFormat="yyyy-MM-dd"
+            />
+          </div>
+          <div className="time-buttons">
+            {timeSlots.map(slot => (
+              <button
+                key={slot.id}
+                className={selectedTimes.includes(slot.id) ? "selected" : ""}
+                onClick={() => handleTimeClick(slot.id)}
+              >
+                {slot.display}
+              </button>
+            ))}
+          </div>
+          <button onClick={handleSubmit} class="custom-button" style={{ color: "black" }}>Gửi thông tin</button>
+        </div></div>
       <ToastContainer />
-      </>
+    </>
   );
 }

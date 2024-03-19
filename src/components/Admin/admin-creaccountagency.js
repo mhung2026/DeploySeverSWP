@@ -4,8 +4,10 @@ import CallApi from '../CallApi';
 import FormValidation from '../FormValidation';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import Adminmenu from "./admin-menu";
+import UserAdmin from '../../list/userIAdmin';
 export default function AdminCreaccountagency() {
+    const userLoginBasicInformationDto = JSON.parse(localStorage.getItem('userLoginBasicInformationDto'));
     const [formData, setFormData] = useState({
         taiKhoan: '',
         matKhau: '',
@@ -69,35 +71,41 @@ export default function AdminCreaccountagency() {
     return (
         <div >
             <ToastContainer /> {/* Container để hiển thị thông báo */}
-            <div class="custom-container">
-                <h2 style={{fontWeight: "bold"}}>Đăng Kí Tài Khoản cho Agency</h2>
-                <form onSubmit={handleSubmit}>
-                    <div>
-                        <label>Họ và Tên</label>
-                        <input type="text" name="taiKhoan" value={formData.taiKhoan} onChange={handleChange} />
-                    </div>
-                    <div>
-                        <label>Mật khẩu:</label>
-                        <input type="password" name="matKhau" value={formData.matKhau} onChange={handleChange} style={{width: "100%"}} />
-                    </div>
-                    <div>
-                        <label>Xác nhận lại mật khẩu:</label>
-                        <input type="password" name="xacNhanMatKhau" value={formData.xacNhanMatKhau} onChange={handleChange} style={{width: "100%"}} />
-                    </div>
-                    <div>
-                        <label>Số điện thoại:</label>
-                        <input type="text" name="soDienThoai" value={formData.soDienThoai} onChange={handleChange} />
-                    </div>
-                    <div>
-                        <label>Email:</label>
-                        <input type="email" name="email" value={formData.email} onChange={handleChange} style={{width: "100%"}} />
-                    </div>
-                    <div>
-                        <label>Địa chỉ:</label>
-                        <input type="text" name="diaChi" value={formData.diaChi} onChange={handleChange} />
-                    </div>
-                    <button type="submit">Đăng Ký</button>
-                </form>
+            <div className="admin-all-account">
+                <Adminmenu
+                    userLoginBasicInformationDto={userLoginBasicInformationDto}
+                    UserMenu={UserAdmin}
+                />
+                <div>
+                    <h2 style={{ fontWeight: "bold" }}>Đăng Kí Tài Khoản cho Agency</h2>
+                    <form onSubmit={handleSubmit}>
+                        <div>
+                            <label>Họ và Tên</label>
+                            <input type="text" name="taiKhoan" value={formData.taiKhoan} onChange={handleChange} />
+                        </div>
+                        <div>
+                            <label>Mật khẩu:</label>
+                            <input type="password" name="matKhau" value={formData.matKhau} onChange={handleChange} style={{ width: "100%" }} />
+                        </div>
+                        <div>
+                            <label>Xác nhận lại mật khẩu:</label>
+                            <input type="password" name="xacNhanMatKhau" value={formData.xacNhanMatKhau} onChange={handleChange} style={{ width: "100%" }} />
+                        </div>
+                        <div>
+                            <label>Số điện thoại:</label>
+                            <input type="text" name="soDienThoai" value={formData.soDienThoai} onChange={handleChange} />
+                        </div>
+                        <div>
+                            <label>Email:</label>
+                            <input type="email" name="email" value={formData.email} onChange={handleChange} style={{ width: "100%" }} />
+                        </div>
+                        <div>
+                            <label>Địa chỉ:</label>
+                            <input type="text" name="diaChi" value={formData.diaChi} onChange={handleChange} />
+                        </div>
+                        <button type="submit">Đăng Ký</button>
+                    </form>
+                </div>
             </div>
         </div>
     );

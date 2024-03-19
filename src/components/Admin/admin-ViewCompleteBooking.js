@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import CallApi from '../CallApi';
+import Adminmenu from "./admin-menu";
+import UserAdmin from '../../list/userIAdmin';
 
 export default function AdminViewCompleteBooking() {
+    const userLoginBasicInformationDto = JSON.parse(localStorage.getItem('userLoginBasicInformationDto'));
     const [CompleteRes, setCompleteRes] = useState([]); // State to store accounts
     const [realEstates, setRealEstates] = useState([]);
     const [accounts, setAccounts] = useState([]);
@@ -43,30 +46,36 @@ export default function AdminViewCompleteBooking() {
         return `${day < 10 ? '0' + day : day}/${month < 10 ? '0' + month : month}/${year}`;
     };
     return (
-        <div className='container1'>
-            <h1 style={{fontSize: '30px'}}>Danh Sách Đã Hoàn Thành Dẫn Đi Xem</h1>
-            <table className='thongtindanhsach'>
-                <thead>
-                    <tr>
-                        <th>Tên bất động sản</th>
-                        <th>Tên khách hàng</th>
-                        <th>Ngày xem</th>
-                        <th>Giờ xem</th>
-                        <th>Người dẫn xem</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {CompleteRes.map(res => (
-                    <tr key={res.id}>
-                        <td>{getRealEstateNameById(res.realEstateId)}</td>
-                        <td>{getUsernameByCustomerId(res.customerId)}</td>
-                        <td>{formatDate(res.bookingDate)}</td>
-                        <td>{res.bookingTime}</td>
-                        <td>{getUsernameByAgencyId(res.agencyId)}</td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
+        <div className="admin-all-account">
+            <Adminmenu
+                userLoginBasicInformationDto={userLoginBasicInformationDto}
+                UserMenu={UserAdmin}
+            />
+            <div>
+                <h1 style={{ fontSize: '30px' }}>Danh Sách Đã Hoàn Thành Dẫn Đi Xem</h1>
+                <table className='thongtindanhsach'>
+                    <thead>
+                        <tr>
+                            <th>Tên bất động sản</th>
+                            <th>Tên khách hàng</th>
+                            <th>Ngày xem</th>
+                            <th>Giờ xem</th>
+                            <th>Người dẫn xem</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {CompleteRes.map(res => (
+                            <tr key={res.id}>
+                                <td>{getRealEstateNameById(res.realEstateId)}</td>
+                                <td>{getUsernameByCustomerId(res.customerId)}</td>
+                                <td>{formatDate(res.bookingDate)}</td>
+                                <td>{res.bookingTime}</td>
+                                <td>{getUsernameByAgencyId(res.agencyId)}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }

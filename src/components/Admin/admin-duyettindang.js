@@ -3,13 +3,16 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer và toast từ thư viện react-toastify
 import 'react-toastify/dist/ReactToastify.css';
-
+import Adminmenu from "./admin-menu";
+import UserAdmin from '../../list/userIAdmin';
 const statusOptions = [
     { value: 1, label: 'Đang xử lý' },
     { value: 2, label: 'Mở bán' },
 ];
 
 export default function Agencyduyettindang() {
+    
+    const userLoginBasicInformationDto = JSON.parse(localStorage.getItem('userLoginBasicInformationDto'));
     const [realEstates, setRealEstates] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [unsavedChanges, setUnsavedChanges] = useState({});
@@ -159,7 +162,11 @@ export default function Agencyduyettindang() {
     );
 
     return (
-        <div className="outer-container">
+        <div className="admin-all-account">
+        <Adminmenu
+            userLoginBasicInformationDto={userLoginBasicInformationDto}
+            UserMenu={UserAdmin}
+        />
             <div className='container'>
                 <div className='col-md-9 danhsachbdscanduyet'>
                     <h1>Danh sách bất động sản cần được duyệt</h1>

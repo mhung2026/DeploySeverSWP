@@ -1,26 +1,30 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+
 
 export default function Agencymenu({ userLoginBasicInformationDto, UserMenu, handleLogout }) {
     const navigate = useNavigate();
 
-    // Kiểm tra nếu userLoginBasicInformationDto không tồn tại, thực hiện redirect
     if (!userLoginBasicInformationDto) {
         navigate('/trangchu');
-        return null; // return null để không render gì cả nếu chuyển hướng
+        return null;
     }
 
     return (
-        <div className="col-md-3 account">
-            <span className='welcome'>Chào mừng, {userLoginBasicInformationDto.username}!</span>
-            <ul className="menu-list-investor">
+        <div className="admin-menu">
+            <span className="admin-menu__welcome">Chào mừng, {userLoginBasicInformationDto.username}!</span>
+            <ul className="admin-menu__list">
                 {UserMenu.map(menuItem => (
-                    <li key={menuItem.id} className="menu-item-container">
-                        <Link className="menu-item-investor" to={menuItem.link}>{menuItem.name}</Link>
+                    <li key={menuItem.id} className="admin-menu__item">
+                        <NavLink
+                            to={menuItem.link}
+                            className={({ isActive }) => isActive ? "admin-menu__link admin-menu__link--active" : "admin-menu__link"}
+                        >
+                            {menuItem.name}
+                        </NavLink>
                     </li>
                 ))}
             </ul>
-
         </div>
     );
 }

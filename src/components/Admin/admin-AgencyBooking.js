@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import CallApi from '../CallApi';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import Adminmenu from "./admin-menu";
+import UserAdmin from '../../list/userIAdmin';
 
 export default function AdminAgencyBooking() {
     const [agencyAccounts, setAgencyAccounts] = useState([]);
     const navigate = useNavigate(); // Sử dụng useNavigate
-
+    const userLoginBasicInformationDto = JSON.parse(localStorage.getItem('userLoginBasicInformationDto'));
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -45,7 +47,11 @@ export default function AdminAgencyBooking() {
 
 
     return (
-        <div class="new-container">
+        <div className="admin-all-account">
+        <Adminmenu
+          userLoginBasicInformationDto={userLoginBasicInformationDto}
+          UserMenu={UserAdmin}
+        />
             <table class="new-table">
                 <thead>
                     <tr>

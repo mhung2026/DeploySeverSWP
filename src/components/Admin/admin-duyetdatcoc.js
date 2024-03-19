@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate từ react-router-dom
 import CallApi from '../CallApi';
+import Adminmenu from "./admin-menu";
+import UserAdmin from '../../list/userIAdmin';
 
 export default function AdminDuyetdatcoc() {
+    const userLoginBasicInformationDto = JSON.parse(localStorage.getItem('userLoginBasicInformationDto'));
     const [realEstatesWithPerimeter, setRealEstatesWithPerimeter] = useState([]);
     const [realEstates, setRealEstates] = useState([]);
     const [accounts, setAccounts] = useState([]);
@@ -40,26 +43,31 @@ export default function AdminDuyetdatcoc() {
     };
 
     return (
-        <div id="admin-table-div">
-            <h2>Admin duyệt đặt cọc (hoặc bán)</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {realEstatesWithPerimeter.map(realEstate => (
-                        <tr key={realEstate.id}>
-                            <td>{getRealEstateNameById(realEstate.id)}</td>
-                            <td onClick={() => handleRealEstateClick(realEstate.id)} style={{ cursor: 'pointer' }}>{getUsernameByCustomerId(parseInt(realEstate.perimeter))}</td>
-                           
+        <div className="admin-all-account">
+            <Adminmenu
+                userLoginBasicInformationDto={userLoginBasicInformationDto}
+                UserMenu={UserAdmin}
+            />
+            <div>
+                <h2>Admin duyệt đặt cọc (hoặc bán)</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-          
+                    </thead>
+                    <tbody>
+                        {realEstatesWithPerimeter.map(realEstate => (
+                            <tr key={realEstate.id}>
+                                <td>{getRealEstateNameById(realEstate.id)}</td>
+                                <td onClick={() => handleRealEstateClick(realEstate.id)} style={{ cursor: 'pointer' }}>{getUsernameByCustomerId(parseInt(realEstate.perimeter))}</td>
+
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }
