@@ -91,7 +91,7 @@ export default function Dangki() {
             toast.success('Chúng tôi đã gửi một email xác thực đến địa chỉ của bạn!');
             navigate('/kiemtraemail');
         } catch (error) {
-            toast.error('Có lỗi xảy ra khi gửi email xác thực: ' + error.message);
+            toast.error('Đã quá số lần tạo tài khoản trong ngày, vui lòng chờ ngày mai');
         }
     };
 
