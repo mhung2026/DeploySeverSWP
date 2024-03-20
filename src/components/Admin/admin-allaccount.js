@@ -11,7 +11,7 @@ export default function AdminAllAccount() {
         const fetchData = async () => {
             try {
                 const callDataAllAccount = await CallApi.getAllAccount();
-                setAccountData(callDataAllAccount);
+                setAccountData(callDataAllAccount.filter(account => account.status !== false));
                 const callDataAllRole = await CallApi.getAllRole();
                 setRoleData(callDataAllRole);
             } catch (error) {
