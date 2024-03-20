@@ -4,10 +4,17 @@ import FormValidation from './FormValidation';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CallApi from './CallApi';
+import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '../firebase/FirebaseConfing';
+import {  useLocation } from 'react-router-dom';
+import { isSignInWithEmailLink, sendSignInLinkToEmail, signInWithEmailLink } from 'firebase/auth';
 
 export default function Dangki() {
     const [roleId, setRoleId] = useState("");
     const [allAccounts, setAllAccounts] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -27,11 +34,18 @@ export default function Dangki() {
         xacNhanMatKhau: '',
         soDienThoai: '',
         email: '',
-        diaChi: ''
+        diaChi: '',
+        roleId: ''
     });
 
     const handleRoleChange = (e) => {
-        setRoleId(e.target.value);
+        const selectedRoleId = e.target.value;
+        setRoleId(selectedRoleId);
+
+        setFormData(prevState => ({
+            ...prevState,
+            roleId: selectedRoleId
+        }));
     };
 
     const handleChange = (e) => {
@@ -44,40 +58,75 @@ export default function Dangki() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        if (!FormValidation.validateFormData(formData) || !roleId) {
-            toast.error('Vui lòng kiểm tra lại thông tin đã nhập và chọn vai trò!');
+    
+        if (!formData.taiKhoan || !formData.matKhau || !formData.xacNhanMatKhau || !formData.soDienThoai || !formData.email || !formData.diaChi || !roleId) {
+            toast.error('Vui lòng điền đầy đủ thông tin và chọn vai trò!');
             return;
         }
-
+    
+        if (formData.matKhau !== formData.xacNhanMatKhau) {
+            toast.error('Mật khẩu không khớp!');
+            return;
+        }
+    
         const existingEmail = allAccounts.find(account => account.email === formData.email);
         if (existingEmail) {
             toast.error('Email đã tồn tại!');
             return;
         }
-
-        const postData = {
-            roleId: roleId,
-            username: formData.taiKhoan,
-            password: formData.matKhau,
-            phoneNumber: formData.soDienThoai,
-            email: formData.email,
-            address: formData.diaChi,
-            createAt: new Date().toISOString(),
-            status: true
-        };
-
+    
         try {
-            const response = await axios.post('http://swprealestatev2-001-site1.etempurl.com/api/account/TaoTaiKhoan', postData);
-            console.log('Đăng ký thành công:', response.data);
-            toast.success('Đăng kí thành công!', {
-                onClose: () => window.location.href = '/dangnhap'
+            // Gửi email xác thực
+            await sendSignInLinkToEmail(auth, formData.email, {
+                url: 'http://localhost:3000/xacthucdangki',
+                handleCodeInApp: true,
             });
+    
+            // Lưu email vào cookie
+            Cookies.set('email', formData.email); // Sử dụng cookies để lưu trữ email
+    
+            // Lưu formData vào localStorage (nếu cần)
+            localStorage.setItem('formData', JSON.stringify(formData));
+    
+            toast.success('Chúng tôi đã gửi một email xác thực đến địa chỉ của bạn!');
+            navigate('/kiemtraemail');
         } catch (error) {
-            console.error('Đăng ký thất bại:', error);
-            toast.error('Đăng kí thất bại!');
+            toast.error('Có lỗi xảy ra khi gửi email xác thực: ' + error.message);
         }
     };
+
+    const [user] = useAuthState(auth);
+    const location = useLocation();
+    const { search } = location;
+    const [initialLoading, setInitialLoading] = useState(false);
+    const [initialError, setInitialError] = useState('');
+
+    useEffect(() => {
+        if (user) {
+            navigate('/');
+        } else {
+            if (isSignInWithEmailLink(auth, window.location.href)) {
+                let email = localStorage.getItem('email');
+                if (!email) {
+                    email = window.prompt('Vui lòng nhập email của bạn');
+                }
+                setInitialLoading(true);
+                signInWithEmailLink(auth, localStorage.getItem('email'), window.location.href)
+                    .then((result) => {
+                        localStorage.removeItem('email');
+                        setInitialLoading(false);
+                        setInitialError('');
+                        navigate('/');
+                    }).catch((err) => {
+                        setInitialLoading(false);
+                        setInitialError(err.message);
+                        navigate('/login');
+                    });
+            } else {
+                console.log('Nhập email và đăng nhập');
+            }
+        }
+    }, [user, search, navigate]);
 
     return (
         <div class="login-wrap">
@@ -124,4 +173,3 @@ export default function Dangki() {
     );
 
 }
-
