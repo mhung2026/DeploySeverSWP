@@ -78,7 +78,7 @@ export default function Dangki() {
         try {
             // Gửi email xác thực
             await sendSignInLinkToEmail(auth, formData.email, {
-                url: '/xacthucdangki',
+                url: 'https://swp301.vercel.app/xacthucdangki',
                 handleCodeInApp: true,
             });
     
