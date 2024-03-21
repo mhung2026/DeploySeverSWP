@@ -78,7 +78,7 @@ export default function Dangki() {
         try {
             // Gửi email xác thực
             await sendSignInLinkToEmail(auth, formData.email, {
-                url: 'http://localhost:3000/xacthucdangki',
+                url: '/xacthucdangki',
                 handleCodeInApp: true,
             });
     
