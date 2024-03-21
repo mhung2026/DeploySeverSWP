@@ -162,7 +162,7 @@ export default function Dangki() {
                         <label>
                             <input type="radio" value="3" name="role" checked={roleId === "3"} onChange={handleRoleChange} /> Khách hàng
                         </label>
-                        <label style={{ marginLeft: '20px' }}>
+                        <label>
                             <input type="radio" value="2" name="role" checked={roleId === "2"} onChange={handleRoleChange} /> Chủ đầu tư
                         </label>
                     </div>

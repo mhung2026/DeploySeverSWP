@@ -88,7 +88,7 @@ const Login = () => {
                         </div>
                         <div className="hr"></div>
                         <div className="foot-lnk">
-                            <a href="#forgot">Quên mật khẩu?</a>
+                            <a href="/quenmatkhau">Quên mật khẩu?</a>
                         </div>
                         <div className="group">
                             <button className='dangnhapthanhcong' onClick={handleLogin} disabled={loading} style={{ marginTop: '-56px' }}>

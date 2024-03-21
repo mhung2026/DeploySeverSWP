@@ -53,6 +53,7 @@ import Duan from './components/Duan';
 import Xacthucdangki from './components/xacthucdangki';
 import Testemail from './components/kiemtraemail';
 import Testlogin from './components/testlogin';
+import Quenmatkhau from './components/quenmatkhau';
 // Customer Components
 import TrangChu from './components/Customer/customer-trangchu';
 import Customergioithieu from './components/Customer/customer-gioithieu';
@@ -126,6 +127,7 @@ function RealEstate() {
           <Route path="/kiemtraemail" element={<><Testemail /></>} />
           <Route path="/testlogin" element={<><Testlogin /></>} />
           <Route path="/xacthucdangki" element={<><Xacthucdangki /></>} />
+          <Route path="/quenmatkhau" element={<><Quenmatkhau /></>} />
           
 
 

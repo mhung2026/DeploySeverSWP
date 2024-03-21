@@ -55,6 +55,7 @@ export default function XacThucDangKi() {
 
     return (
         <div>
+            <h1 style={{ color: 'red' }}>VUI LÒNG XÁC THỰC MAIL {verifiedEmail} CÙNG TRÌNH DUYỆT ĐANG ĐĂNG KÍ </h1>
             <h2>Đang xác thực Email: {verifiedEmail}</h2>
             <p>{message}</p>
         </div>
