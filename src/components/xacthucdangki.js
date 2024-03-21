@@ -54,8 +54,9 @@ export default function XacThucDangKi() {
 
     return (
         <div>
-            <h2>Xác thực đăng ký</h2>
-            <p>Email: {verifiedEmail}</p> {/* Hiển thị email đã xác thực */}
+          
+            <h2> Đang xác thực Email: {verifiedEmail}</h2> {/* Hiển thị email đã xác thực */}
+            <p>{message}</p>
             {formData && (
                 <div>
                     {/* <p>Họ và tên: {formData.taiKhoan}</p>
@@ -64,7 +65,7 @@ export default function XacThucDangKi() {
                     <p>Số điện thoại: {formData.soDienThoai}</p>
                     <p>Địa chỉ: {formData.diaChi}</p>
                     <p>Địa chỉ: {formData.roleId}</p> */}
-                    <p>{message}</p>
+                 
                 </div>
             )}
         </div>
