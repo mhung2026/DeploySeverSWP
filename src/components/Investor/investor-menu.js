@@ -26,22 +26,20 @@ export default function InvestorMenu({ userLoginBasicInformationDto, UserMenu })
     }, [userLoginBasicInformationDto.accountId, invesBalances]);
 
     // Function to remove 'invesBalances' from localStorage
-    const removeInvesBalancesFromLocalStorage = () => {
-        localStorage.removeItem('invesBalances');
-    };
+    
     return (
-        <div className="container">
-            <div className="sidebar">
+        <div className="col-md-3 account">
+            <div className="">
                 <span className='welcome'>Chào mừng, {userLoginBasicInformationDto.username}!</span>
                 <div className="balance">Số dư: {invesBalances.length > 0 ? invesBalances : 0}</div>
-                <ul className="menu-list">
+                <ul className="menu-list-investor">
                     {UserMenu.map(menuItem => (
-                        <li key={menuItem.id} className="menu-item">
-                            <Link to={menuItem.link}>{menuItem.name}</Link>
+                        <li key={menuItem.id} className="menu-item-container">
+                            <Link className='menu-item-investor' to={menuItem.link}>{menuItem.name}</Link>
                         </li>
                     ))}
                 </ul>
-                <button onClick={removeInvesBalancesFromLocalStorage}>Xóa dữ liệu</button>
+              
             </div>
         </div>
     );

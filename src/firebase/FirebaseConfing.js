@@ -13,13 +13,13 @@ const firebaseConfig = {
 
 
 // const firebaseConfig = {
-//   apiKey: "AIzaSyAphhwxLkQ_TnitUiZlniZVqIORbsGjPwo",
-//   authDomain: "spwt-7325a.firebaseapp.com",
-//   projectId: "spwt-7325a",
-//   storageBucket: "spwt-7325a.appspot.com",
-//   messagingSenderId: "736236772218",
-//   appId: "1:736236772218:web:2b4a8bfb0b6531907354c3",
-//   measurementId: "G-5XZKXY6DDG"
+//   apiKey: "AIzaSyDZlCLoqN9YgGoUQq6h4PhSU0jdfXyV6bY",
+//   authDomain: "alogin-34427.firebaseapp.com",
+//   projectId: "alogin-34427",
+//   storageBucket: "alogin-34427.appspot.com",
+//   messagingSenderId: "493260224669",
+//   appId: "1:493260224669:web:24a7ace7ffaeae90343c74",
+//   measurementId: "G-T7180BR387"
 // };
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
