@@ -15,6 +15,7 @@ export default function ForgotPassword() {
     const [showRedirectMessage, setShowRedirectMessage] = useState(false); // State to control the display of the redirection message
 
     useEffect(() => {
+        localStorage.clear();
         const resetEmail = localStorage.getItem('resetEmail');
         if (resetEmail) {
             setEmail(resetEmail);
