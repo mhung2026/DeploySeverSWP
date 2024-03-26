@@ -71,37 +71,48 @@ const Login = () => {
 
     return (
         <div className="login-wrap">
-            <div className="login-html">
-                <input id="tab-1" type="radio" name="tab" className="sign-in" checked /><label htmlFor="tab-1" className="tab">Đăng nhập</label>
-                <input id="tab-2" type="radio" name="tab" className="sign-up" /><label htmlFor="tab-2" className="tab"></label>
-                <div className="login-form">
-                    <div className="sign-in-htm">
-                        <div className="group">
-                            <label htmlFor="user" className="label">Email</label>
-                            <input id="user" type="email" className="input" value={username}
-                                onChange={(e) => setUsername(e.target.value)} style={{ border: '1px solid black' }} />
-                        </div>
-                        <div className="group">
-                            <label htmlFor="pass" className="label">Mật khẩu</label>
-                            <input id="pass" type="password" className="input" data-type="password" value={password}
-                                onChange={(e) => setPassword(e.target.value)} style={{ border: '1px solid black' }} />
-                        </div>
-                        <div className="hr"></div>
-                        <div className="foot-lnk">
-                            <a href="/quenmatkhau">Quên mật khẩu?</a>
-                        </div>
-                        <div className="group">
-                            <button className='dangnhapthanhcong' onClick={handleLogin} disabled={loading} style={{ marginTop: '-56px' }}>
-                                {loading ? 'Đang đăng nhập...' : 'Đăng Nhập'}
-                            </button>
-                            {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-                        </div>
-                        <div className="foot-lnk1">
-                            Bạn chưa có tài khoản? Đăng ký <a href='/dangki' style={{textDecoration: 'none', color: '#35CB6D'}}>Tại đây</a>
-                        </div>
+            <div className="form_login">
+                <div className="login">
+                    <p>ĐĂNG NHẬP</p>
+                    <div className="label">
+                        <Form.Floating className="mb-3">
+                            <Form.Control
+                                id="floatingInputCustom"
+                                type="email"
+                                placeholder="name@example.com"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+
+                            />
+                            <label htmlFor="floatingInputCustom">
+                                Email
+                            </label>
+                        </Form.Floating>
+                        <Form.Floating>
+                            <Form.Control
+                                id="floatingPasswordCustom"
+                                type="password"
+                                placeholder="Password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                            <label htmlFor="floatingPasswordCustom">
+                                Mật khẩu
+                            </label>
+                        </Form.Floating>
+                    </div>
+
+                    <div className="btn-sign">
+                    <button type="button" class="btn btn-outline-success" onClick={handleLogin} disabled={loading}>{loading ? 'Đang đăng nhập...' : 'Đăng Nhập'}</button>
+                    </div>
+                    <div className="Load_create">
+                        <p>Bạn chưa có tài khoản?</p>
+                        <Link to="/Dangki">
+                        <a className='dangki' href=''>Đăng ký</a>
+                        </Link>
                     </div>
                 </div>
-            </div>
+                </div>
 
             <ToastContainer /> {/* Container để hiển thị thông báo */}
         </div>
