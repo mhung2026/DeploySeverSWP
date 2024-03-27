@@ -1,30 +1,53 @@
-import React from 'react';
-import { Carousel } from 'antd';
+import React from "react";
+import { Slide } from "react-slideshow-image";
+import 'react-slideshow-image/dist/styles.css'
+import "../css/slide.css";
 
-const contentStyle = {
-  height: '600px',
-  color: '#fff',
-  lineHeight: '300px',
-  textAlign: 'center',
-  background: '#364d79',
-  width: '100%'
+const proprietes = {
+  duration: 5000,
+  transitionDuration: 700,
+  infinite: true,
+  indicators: true,
+  arrows: true,
 };
 
-const images = [
-  'https://www.casadecampo.com.do/wp-content/uploads/2023/11/5bdr_Exc_Villa_Amapola_-pool_view.jpg',
-  'https://ezcloud.vn/wp-content/uploads/2019/03/villa-da-lat-dep-sieu-cap.webp',
-  'https://hoanggiavu.vn/wp-content/uploads/2020/12/mau-villa-dep-nhat-2020-2021-9.jpg',
-  'https://wikiland.vn/wp-content/uploads/BietThuPhuQuoc/Biet-thu-nghi-duong-Phu-Quoc.jpg',
-];
-
-const Header2 = () => (
-  <Carousel autoplay>
-    {images.map((imageUrl, index) => (
-      <div key={index}>
-        <img src={imageUrl} alt={`Image ${index + 1}`} style={contentStyle} />
-      </div>
-    ))}
-  </Carousel>
-);
+const Header2 = () => {
+  return (
+    <div className="containerSlide">
+      <Slide {...proprietes}>
+        <div className="each-slide">
+          <div>
+            <img src='slide-img\1.png' alt="img1" />
+          </div>
+        </div>
+        <div className="each-slide">
+          <div>
+            <img src='slide-img\2.png' alt="img2" />
+          </div>
+        </div>
+        <div className="each-slide">
+          <div>
+            <img src='slide-img\3.png' alt="img3" />
+          </div>
+        </div>
+        <div className="each-slide">
+          <div>
+            <img src='slide-img\4.png' alt="img4" />
+          </div>
+        </div>
+        <div className="each-slide">
+          <div>
+            <img src='slide-img\5.png' alt="img5" />
+          </div>
+        </div>
+        <div className="each-slide">
+          <div>
+            <img src='slide-img\6.png' alt="img6" />
+          </div>
+        </div>
+      </Slide>
+    </div>
+  );
+};
 
 export default Header2;
