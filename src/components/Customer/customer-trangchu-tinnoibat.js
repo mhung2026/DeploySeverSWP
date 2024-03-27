@@ -104,6 +104,9 @@ export default function Customertrangchubanvila() {
   return (
     // JSX
     <div>
+
+      {/* Bat Dau nut Search */}
+
       <div className='search-home' style={{ justifyContent: "center", display: "flex" }}>
         {/* <div className='main-title1 col-md-6'>
           <div class="real-title1">
@@ -192,6 +195,11 @@ export default function Customertrangchubanvila() {
         </FormControl>
 
       </div>
+
+        {/* KetThuc */}
+        
+
+
       <div className="estate-container">
         <div className="main-title">
           <div class="real-title">
