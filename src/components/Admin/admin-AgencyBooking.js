@@ -63,8 +63,8 @@ export default function AdminAgencyBooking() {
                 <tbody>
                     {agencyAccounts.map((agency, index) => (
                         <tr key={index}>
-                            <td>{agency.id}</td>
-                            <td>{agency.username}</td>
+                          <td onClick={() => handleBookingClick(agency.id)} style={{ cursor: 'pointer' }}>{agency.id}</td> {/* Sửa đổi tại đây */}
+                            <td onClick={() => handleBookingClick(agency.id)} style={{ cursor: 'pointer' }}>{agency.username}</td> {/* Sửa đổi tại đây */}
                             <td onClick={() => handleBookingClick(agency.id)} style={{ cursor: 'pointer' }}>{agency.bookingCount}</td> {/* Sửa đổi tại đây */}
                         </tr>
                     ))}

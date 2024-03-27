@@ -105,12 +105,19 @@ export default function Customerthongtinchitiet() {
     };
 
     const handleBooking = async () => {
+        
         if (!isButtonDisabled) {
-            // Khóa nút và thực hiện hành động
             setIsButtonDisabled(true);
-    
+            if (userLoginBasicInformationDto && userLoginBasicInformationDto.roleName !== "Customer") {
+                toast.error('Bạn không phải là khách hàng.');
+                setIsButtonDisabled(false);
+                return;
+            }
             if (selectedDate && selectedTime && userLoginBasicInformationDto && userLoginBasicInformationDto.accountId && parsedId) {
-                const formattedDate = formatISO(selectedDate, { representation: 'complete' });
+                // Chuyển đổi ngày về múi giờ cục bộ trước khi gửi lên Swagger
+                const localDate = new Date(selectedDate);
+                const localISOString = localDate.toISOString();
+    
                 try {
                     const existingReservations = await CallApi.getAllReservations();
                     const hasExistingReservation = existingReservations.some(reservation =>
@@ -119,12 +126,12 @@ export default function Customerthongtinchitiet() {
     
                     if (hasExistingReservation) {
                         toast.error('Bạn đã đặt đơn rồi vui lòng chờ xác nhận hoặc hủy đơn cũ trước khi đặt đơn mới.');
-                        setIsButtonDisabled(false); // Mở khóa nút nếu có lỗi
+                        setIsButtonDisabled(false);
                         return;
                     }
     
                     const reservationData = {
-                        bookingDate: formattedDate,
+                        bookingDate: localISOString, // Sử dụng ngày đã chuyển đổi sang chuỗi ISO
                         bookingTime: selectedTime,
                         customerId: userLoginBasicInformationDto.accountId,
                         realEstateId: parsedId
@@ -132,16 +139,16 @@ export default function Customerthongtinchitiet() {
     
                     const response = await axios.post('http://swprealestatev2-001-site1.etempurl.com/api/reservation/CreateReservation', reservationData);
                     toast.success('Đặt chỗ thành công!');
-                    unlockButton(); // Gọi hàm để mở khóa nút
-                    toast.info('Vui lòng không spam'); // Thêm thông báo vui lòng không spam
+                    unlockButton();
+                    toast.info('Vui lòng không spam');
                 } catch (error) {
                     console.error('Error during reservation process:', error);
                     toast.error('Đã xảy ra lỗi khi kiểm tra hoặc tạo đặt chỗ. Vui lòng thử lại sau.');
-                    setIsButtonDisabled(false); // Mở khóa nút nếu có lỗi
+                    setIsButtonDisabled(false);
                 }
             } else {
                 toast.error('Vui lòng điền đầy đủ thông tin đặt lịch.');
-                setIsButtonDisabled(false); // Mở khóa nút nếu có lỗi
+                setIsButtonDisabled(false);
             }
         }
     };

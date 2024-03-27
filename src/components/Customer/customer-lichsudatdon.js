@@ -70,18 +70,25 @@ export default function CustomerLichsudatdon() {
                         </tr>
                     </thead>
                     <tbody>
-                        {customerReservation.map((reservation, index) => (
-                            <tr key={index}>
-                                <td>{reservation.id}</td>
-                                <td>{getRealEstateNameById(reservation.realEstateId)}</td>
-                                <td>{getUsernameByCustomerId(reservation.customerId)}</td>
-                                <td>{formatDate(reservation.bookingDate)}</td>
-                                <td>{reservation.bookingTime}</td>
-                                <td>{getUsernameByCustomerId(reservation.agencyId)}</td>
-                                <td>{reservation.status === 2 ? 'Đã hoàn thành' : 'Chưa hoàn thành'}</td>
+                        {customerReservation.length === 0 ? (
+                            <tr>
+                                <td colSpan="7">Không có dữ liệu để hiển thị</td>
                             </tr>
-                        ))}
+                        ) : (
+                            customerReservation.map((reservation, index) => (
+                                <tr key={index}>
+                                    <td>{reservation.id}</td>
+                                    <td>{getRealEstateNameById(reservation.realEstateId)}</td>
+                                    <td>{getUsernameByCustomerId(reservation.customerId)}</td>
+                                    <td>{formatDate(reservation.bookingDate)}</td>
+                                    <td>{reservation.bookingTime}</td>
+                                    <td>{getUsernameByCustomerId(reservation.agencyId)}</td>
+                                    <td>{reservation.status === 2 ? 'Đã hoàn thành' : 'Chưa hoàn thành'}</td>
+                                </tr>
+                            ))
+                        )}
                     </tbody>
+
                 </table>
             </div>
         </div>

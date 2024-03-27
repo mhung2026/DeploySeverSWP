@@ -131,7 +131,7 @@ export default function AgencyCustomerDetailPage() {
             // Create requestData with status 5
             const requestData = {
                 id: filterRealEstate.id,
-                firebaseId: firebaseUrls.join(),
+                contract: firebaseUrls.join(),
                 investorId: filterRealEstate.investorId,
                 payId: 1,
                 locationId: filterRealEstate.locationId,
@@ -156,7 +156,8 @@ export default function AgencyCustomerDetailPage() {
             console.log('Sending data to Swagger:', requestData);
 
             // Send data to Swagger
-            axios.put(`http://swprealestatev2-001-site1.etempurl.com/api/invester/updatePostById/${realEstateId}`, requestData)
+            // axios.put(`http://swprealestatev2-001-site1.etempurl.com/api/invester/updatePostById/${realEstateId}`, requestData)
+            axios.put(`http://swprealestatev2-001-site1.etempurl.com/api/agency/updatePostById/${realEstateId}`, requestData)
                 .then(response => {
                     console.log('Response from Swagger:', response.data);
                     setToastMessage('Đã đánh dấu là đã bán!');
@@ -246,8 +247,8 @@ export default function AgencyCustomerDetailPage() {
                 </div>
             )}
             {/* Conditionally render buttons */}
-            {!status3 && !sold && <button onClick={sendToSwagger} style={{ backgroundColor: "#35CB6D" }}>Đã cọc</button>}
-            {!sold && !sold && <button onClick={markAsSold} style={{ backgroundColor: "#35CB6D" }}>Đã bán</button>}
+            {!status3 && !sold && <button onClick={sendToSwagger} style={{ backgroundColor: "#35CB6D" }}>Khách hàng chọn cọc</button>}
+            {!sold && !sold && <button onClick={markAsSold} style={{ backgroundColor: "#35CB6D" }}>Khách hàng chọn bán</button>}
         </div>
     );
 }

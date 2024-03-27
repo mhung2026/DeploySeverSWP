@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import duan from '../list/duan';
@@ -8,13 +8,36 @@ import { getToken } from '../authentication/Auth';
 import listheaderCustomer from '../list/listheaderCustomer';
 import listheaderAgency from '../list/listheaderAgency';
 import listheaderInvestor from '../list/listheaderInvestor';
-
+import CallApi from '../components/CallApi';
 export default function Header() {
+    const [username, setUsername] = useState('');
     const userLoginBasicInformationDto = JSON.parse(localStorage.getItem('userLoginBasicInformationDto'));
     const checkRoleID = userLoginBasicInformationDto ? userLoginBasicInformationDto.roleName : null;
     const token = getToken();
-    // console.log('Token:', token);
+    
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const callDataAllAccount = await CallApi.getAllAccount();
+                const callDataRoleIdAgency = callDataAllAccount.find(account => account.id === userLoginBasicInformationDto.accountId);
+                const nameCustomer = callDataRoleIdAgency.username;
+              
+                setUsername(nameCustomer);
+            } catch (error) {
+                //console.error("Error at fetchData", error);
+            }
+        };
+        const fetchUpdatedData = async () => {
+            while (true) {
+                await fetchData();
+                await new Promise(resolve => setTimeout(resolve, 0));
+            }
+        };
 
+        fetchData(); // Initial fetch
+        fetchUpdatedData(); // Start long polling
+
+    }, []);
     let headerItems;
     if (checkRoleID === 'Agency') {
         headerItems = listheaderAgency;
@@ -79,7 +102,7 @@ export default function Header() {
                                 {token && userLoginBasicInformationDto ? (
                                     <div class="dropdown">
                                         <span class="login-link">
-                                            {userLoginBasicInformationDto.username}
+                                            {username}
                                         </span>
                                         <div class="dropdown-menu">
                                             {headerItems.map((item) => (

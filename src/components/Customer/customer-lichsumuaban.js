@@ -18,21 +18,21 @@ export default function CustomerLichsumuaban() {
                 const filteredRealEstate = allRealEstate.filter(estate => estate.perimeter === userLoginBasicInformationDto.accountId.toString() && estate.status !== 1 && estate.status !== 2);
 
                 setFilteredRealEstates(filteredRealEstate);
-    
+
                 if (filteredRealEstate.length > 0) {
                     const locationIds = filteredRealEstate.map(estate => estate.locationId);
                     const locationResponse = await CallApi.getAllLocation();
                     const foundLocations = locationResponse.find(location => locationIds.includes(location.id));
                     setFoundLocation(foundLocations); // Set found locations data
                 }
-    
+
                 const allAccounts = await CallApi.getAllAccount();
                 setAccounts(allAccounts); // Set accounts data
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         }
-    
+
         fetchData();
     }, []);
 
@@ -62,24 +62,24 @@ export default function CustomerLichsumuaban() {
                 realEstate.listRealEstateImageUrl = realEstate.realEstateImages;
                 delete realEstate.realEstateImages;
             }
-    
+
             if (foundLocation) {
                 realEstate.city = foundLocation.city;
                 realEstate.district = foundLocation.district;
                 realEstate.ward = foundLocation.ward;
             }
-    
+
             // Set status to 2 for cancelling deposit
             realEstate.status = 2;
-    
+
             const response = await axios.put(`http://swprealestatev2-001-site1.etempurl.com/api/invester/updatePostById/${realEstate.id}`, realEstate);
-    
+
             console.log('Response:', response.data);
             console.log('Real estate deposit cancelled successfully.');
-    
+
             // Show success toast
             toast.success('Hủy cọc thành công');
-    
+
             // Reload the page
             window.location.reload();
         } catch (error) {
@@ -107,20 +107,27 @@ export default function CustomerLichsumuaban() {
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredRealEstates.map((estate, index) => (
-                            <tr key={index}>
-                                <td>{estate.realestateName}</td>
-                                <td>{getUsernameByCustomerId(parseInt(estate.perimeter))}</td>
-                                <td>{getRealEstateStatusById(estate.status)}</td>
-                                {estate.status !== 6 && (
-                                    <td>
-                                        <button onClick={() => handleCancelDeposit(estate)} style={{backgroundColor: "#35CB6D"}}>Hủy Cọc</button>
-                                    </td>
-                                )}
-                                {/* Add more cells with other properties */}
+                        {filteredRealEstates.length === 0 ? (
+                            <tr>
+                                <td colSpan="4">Không có dữ liệu để hiển thị</td>
                             </tr>
-                        ))}
+                        ) : (
+                            filteredRealEstates.map((estate, index) => (
+                                <tr key={index}>
+                                    <td>{estate.realestateName}</td>
+                                    <td>{getUsernameByCustomerId(parseInt(estate.perimeter))}</td>
+                                    <td>{getRealEstateStatusById(estate.status)}</td>
+                                    {estate.status !== 6 && (
+                                        <td>
+                                            <button onClick={() => handleCancelDeposit(estate)} style={{ backgroundColor: "#35CB6D" }}>Hủy Cọc</button>
+                                        </td>
+                                    )}
+                                    {/* Add more cells with other properties */}
+                                </tr>
+                            ))
+                        )}
                     </tbody>
+
                 </table>
             </div>
         </div>

@@ -11,22 +11,22 @@ export default function InvestorMenu({ userLoginBasicInformationDto, UserMenu })
             try {
                 const getAllWallet = await CallApi.getAllWallet();
                 const getIdInvestorWallet = getAllWallet.find(IdInvestor => IdInvestor.investorId === parseInt(userLoginBasicInformationDto.accountId));
-                const accountBalances = getIdInvestorWallet.accountBalance;
-    
-                // Kiểm tra xem số dư hiện tại có khác với số dư trong cơ sở dữ liệu không
-                if (JSON.stringify(accountBalances) !== JSON.stringify(invesBalances)) {
-                    setInvesBalances(accountBalances);
-                    localStorage.setItem('invesBalances', JSON.stringify(accountBalances));
+                if (getIdInvestorWallet) {
+                    const accountBalances = getIdInvestorWallet.accountBalance;
+                    if (JSON.stringify(accountBalances) !== JSON.stringify(invesBalances)) {
+                        setInvesBalances(accountBalances);
+                        localStorage.setItem('invesBalances', JSON.stringify(accountBalances));
+                    }
                 }
             } catch (error) {
                 console.error('Error at fetchData', error);
             }
         };
         fetchData();
-    }, [userLoginBasicInformationDto.accountId, invesBalances]);
+    }, []);
 
     // Function to remove 'invesBalances' from localStorage
-    
+
     return (
         <div className="col-md-3 account">
             <div className="">
@@ -39,7 +39,7 @@ export default function InvestorMenu({ userLoginBasicInformationDto, UserMenu })
                         </li>
                     ))}
                 </ul>
-              
+
             </div>
         </div>
     );

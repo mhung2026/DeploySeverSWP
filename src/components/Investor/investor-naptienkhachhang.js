@@ -1,45 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import InvestorMenu from './investor-menu';
 import UserInvestor from '../../list/userInvestor';
 import CallApi from '../CallApi';
 import axios from 'axios';
-const BANK_ID = '970422';
-const ACCOUNT_NO = '0965150379';
+
+const BANK_ID = '970416';
+const ACCOUNT_NO = '16697391';
 const TEMPLATE = 'compact';
 
-function generateRandomString(length) {
+const generateRandomString = (length) => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    for (let i = 0; i < length; i++) {
-        const randomIndex = Math.floor(Math.random() * characters.length);
-        result += characters.charAt(randomIndex);
-    }
-    return result;
-}
+    return Array.from({ length }, () => characters.charAt(Math.floor(Math.random() * characters.length))).join('');
+};
 
-export default function CustomerNaptienkhachhang() {
+const CustomerNaptienkhachhang = () => {
     const [userLoginBasicInformationDto, setUserLoginBasicInformationDto] = useState({});
     const [amount, setAmount] = useState('');
     const [description, setDescription] = useState('');
     const [paymentUrl, setPaymentUrl] = useState('');
-    const [paymentCheckInterval, setPaymentCheckInterval] = useState(null);
-    const [paymentSuccess, setPaymentSuccess] = useState(false); // Thêm biến trạng thái để theo dõi thanh toán
+    const [paymentChecked, setPaymentChecked] = useState(false);
+    const [successMessage, setSuccessMessage] = useState('');
+    const checkPaymentInterval = useRef(null);
 
     useEffect(() => {
         const userData = JSON.parse(localStorage.getItem('userLoginBasicInformationDto'));
         setUserLoginBasicInformationDto(userData);
-        setDescription(userData.username + " Ma Giao Dich " + generateRandomString(4));
+        setDescription(userData?.username ? `${userData.username} Ma Giao Dich ${generateRandomString(6)}` : '');
     }, []);
 
-    useEffect(() => {
-        return () => {
-            if (paymentCheckInterval) {
-                clearInterval(paymentCheckInterval);
-            }
-        };
-    }, [paymentCheckInterval]);
-
-    const handlePayment = async () => {
+    const handlePayment = () => {
         const numericAmount = parseFloat(amount);
         if (isNaN(numericAmount) || numericAmount <= 0 || !description) {
             alert("Please enter a valid amount and fill in all the payment details!");
@@ -51,127 +40,109 @@ export default function CustomerNaptienkhachhang() {
         setPaymentUrl(url);
         console.log("Payment URL:", url);
 
-        // Bắt đầu kiểm tra thanh toán sau khi tạo URL
-        let checkInterval = setInterval(async () => {
-            await checkPayment(checkInterval); // Truyền `checkInterval` để có thể dừng nó sau khi thanh toán thành công
-        }, 5000); // Kiểm tra mỗi 5 giây
+        // Clear previous interval if exists
+        if (checkPaymentInterval.current) clearInterval(checkPaymentInterval.current);
 
-        // Dừng kiểm tra sau 120 giây
-        // setTimeout(() => {
-        //     clearInterval(checkInterval);
-        //     if (!paymentSuccess) { // Chỉ thông báo nếu thanh toán chưa thành công
-        //         setPaymentUrl(''); // Ẩn QR code khi quá thời gian
-        //         alert('Payment QR Code is no longer valid.');
-        //     }
-        // }, 120000); // 120 giây
+        // Start checking payment after initial delay of 3 seconds
+        checkPaymentInterval.current = setInterval(checkPayment, 7000);
     };
 
-    async function checkPayment(checkInterval) {
+    const handleSuccess = (message) => {
+        // Clear the interval to stop checking payment
+        clearInterval(checkPaymentInterval.current);
+        checkPaymentInterval.current = null;
+        setPaymentChecked(false); // Reset the payment checked flag
+        setSuccessMessage(message);
+    };
+
+    const updateWalletAndHistory = async (walletData, numericAmount) => {
+        const getIdWallet = walletData.id;
+        const updatedAmount = parseFloat(walletData.accountBalance) + numericAmount;
+        const dataToSend = { status: true, accountBalance: updatedAmount };
+        try {
+
+            await axios.put(`http://swprealestatev2-001-site1.etempurl.com/api/Wallet/UpdateWallet/${getIdWallet}`, dataToSend);
+            console.log("Wallet updated successfully!");
+            const walletHistoryData = { walletId: getIdWallet, description: `Bạn đã nạp thành công ${numericAmount} vào tài khoản` };
+            await axios.post('http://swprealestatev2-001-site1.etempurl.com/api/WalletHistory/CreateWalletHistory', walletHistoryData);
+            handleSuccess("Payment successful and wallet updated.");
+        } catch (error) {
+            console.error("Error updating wallet or creating wallet history:", error);
+        }
+    };
+
+    const createWalletAndHistory = async (numericAmount) => {
+        const dataToSend = { investorId: userLoginBasicInformationDto.accountId, accountBalance: numericAmount };
+        try {
+            const response = await axios.post('http://swprealestatev2-001-site1.etempurl.com/api/Wallet/CreateWallet', dataToSend);
+            console.log("New wallet created successfully!");
+            const walletHistoryData = { walletId: response.data.id, description: `Bạn đã nạp thành công ${numericAmount} vào tài khoản` };
+            await axios.post('http://swprealestatev2-001-site1.etempurl.com/api/WalletHistory/CreateWalletHistory', walletHistoryData);
+            handleSuccess("Payment successful and new wallet created.");
+        } catch (error) {
+            console.error("Error creating new wallet or creating wallet history:", error);
+        }
+    };
+
+    const checkPayment = async () => {
         try {
             const callDataAllPayment = await CallApi.getAllPayMent();
             const callDataAllWallet = await CallApi.getAllWallet();
-            
-            if (callDataAllPayment && callDataAllPayment.data && callDataAllPayment.data.length > 0) {
+    
+            if (callDataAllPayment?.data?.length > 0) {
                 const numericAmount = parseFloat(amount);
                 const lastPayment = callDataAllPayment.data[callDataAllPayment.data.length - 1];
                 const lastPaymentAmount = parseFloat(lastPayment.Price);
-    
-                if (lastPaymentAmount === numericAmount) {
-                    setPaymentSuccess(true); // Cập nhật biến trạng thái
-    
-                    // Kiểm tra nếu userLoginBasicInformationDto.accountId có trong dữ liệu callDataAllWallet.investorId
+                const lastContentAmount = lastPayment.Content;
+                
+                // Thêm điều kiện kiểm tra nếu khoản thanh toán đã được xử lý
+                if (lastPaymentAmount >= numericAmount && lastContentAmount.includes(description) && !lastPayment.isProcessed) {
+                    // Tiếp tục xử lý
                     const walletData = callDataAllWallet.find(wallet => wallet.investorId === userLoginBasicInformationDto.accountId);
     
                     if (walletData) {
-                        // Nếu tài khoản đã tồn tại, cập nhật số dư
-                        const getIdWallet = walletData.id;
-                        const updatedAmount = parseFloat(walletData.accountBalance) + numericAmount;
-                        const dataToSend = {
-                            "status": true,
-                            accountBalance: updatedAmount
-                        };
-                        try {
-                            await axios.put('http://firstrealestate-001-site1.anytempurl.com/api/Wallet/UpdateWallet/'+getIdWallet, dataToSend);
-                            console.log("Wallet updated successfully!");
-                            
-                            // Gửi dữ liệu đến API WalletHistory
-                            const walletHistoryData = {
-                                walletId: getIdWallet,
-                                description: `Bạn đã nạp thành công ${numericAmount} vào tài khoản`
-                            };
-                            await axios.post('http://firstrealestate-001-site1.anytempurl.com/api/WalletHistory/CreateWalletHistory', walletHistoryData);
-                            console.log("Wallet history created successfully!");
-                        } catch (error) {
-                            console.error("Error updating wallet or creating wallet history:", error);
-                            // Xử lý lỗi ở đây nếu cần
-                        }
+                        await updateWalletAndHistory(walletData, numericAmount);
                     } else {
-                        // Nếu không có tài khoản, tạo mới
-                        const dataToSend = {
-                            investorId: userLoginBasicInformationDto.accountId,
-                            accountBalance: numericAmount
-                        };
-                        try {
-                            await axios.post('http://firstrealestate-001-site1.anytempurl.com/api/Wallet/CreateWallet', dataToSend);
-                            console.log("New wallet created successfully!");
-                            
-                            // Gửi dữ liệu đến API WalletHistory
-                            const walletHistoryData = {
-                                walletId: walletData.id,
-                                description: `Bạn đã nạp thành công ${numericAmount} vào tài khoản`
-                            };
-                            await axios.post('http://firstrealestate-001-site1.anytempurl.com/api/WalletHistory/CreateWalletHistory', walletHistoryData);
-                            console.log("Wallet history created successfully!");
-                        } catch (error) {
-                            console.error("Error creating new wallet or creating wallet history:", error);
-                            // Xử lý lỗi ở đây nếu cần
-                        }
+                        await createWalletAndHistory(numericAmount);
                     }
     
-                    clearInterval(checkInterval); // Dừng kiểm tra khi thanh toán thành công
-                    // Xóa dữ liệu sau khi thanh toán thành công
-                    setAmount('');
-                    setDescription('');
-                    setPaymentUrl('');
-                    alert("Payment successful!");
+                    // Đánh dấu khoản thanh toán như đã được xử lý
+                    // (Bạn cần thêm logic để cập nhật trạng thái của lastPayment là đã xử lý)
                 } else {
-                    console.log("Payment not successful. Please check the details or try again.");
+                    console.log("Waiting for payment to match the specified conditions.");
                 }
             } else {
                 console.log('No payment data available.');
             }
         } catch (error) {
             console.error('Error during payment check:', error.message);
-            clearInterval(checkInterval); // Dừng kiểm tra nếu có lỗi
         }
-    }
+    };
     
-    
-
-
 
     return (
         <div className='container'>
-             <InvestorMenu
-                userLoginBasicInformationDto={userLoginBasicInformationDto}
-                UserMenu={UserInvestor}
-            />
+            <InvestorMenu userLoginBasicInformationDto={userLoginBasicInformationDto} UserMenu={UserInvestor} />
             <div className='col-md-9 thanhtoanphi'>
                 <div className='payment-form'>
                     <h2>Thực hiện thanh toán</h2>
-                    <div className='input-container' >
+                    <div className='input-container'>
                         <label>Số tiền bạn muốn nạp để thanh toán:</label>
-                        <input  type="number" value={amount} onChange={(e) => setAmount(e.target.value)} />
+                        <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} />
                     </div>
-                    <button onClick={handlePayment} style={{marginBottom: '20px'}}>Thanh toán</button>
+                    <button onClick={handlePayment} style={{ marginBottom: '20px' }}>Thanh toán</button>
                     {paymentUrl && (
                         <div>
-                            <h3 style={{ marginTop: '20px', fontSize: "24px" }}>Quét mã bên dưới để thanh toán </h3>
+                            <h3 style={{ marginTop: '20px', fontSize: "24px" }}>Quét mã bên dưới để thanh toán</h3>
                             <img src={paymentUrl} alt="QR Code" style={{ maxWidth: '100%', height: 'auto' }} />
                         </div>
                     )}
+                    {successMessage && <div className="success-message">{successMessage}</div>}
                 </div>
             </div>
         </div>
     );
-}
+};
+
+export default CustomerNaptienkhachhang;
+

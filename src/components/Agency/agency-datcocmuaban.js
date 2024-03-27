@@ -67,7 +67,7 @@ export default function AgencyDatcocmuaban() {
                 case 5:
                     return 'Đang chờ phê duyệt bán';
                 case 6:
-                    return 'Đang chờ bán thành công';
+                    return 'Phê duyệt bán thành công';
                 default:
                     return 'Trạng thái không xác định';
             }

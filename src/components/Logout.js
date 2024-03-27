@@ -13,6 +13,7 @@ export default function Logout() {
         //     const value = localStorage.getItem(key);
         //     console.log(`${key}: ${value}`);
         // }
+
         // localStorage.clear();
         window.location.href = '/trangchu';
     }, []);

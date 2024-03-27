@@ -52,7 +52,7 @@ import Duan from './components/Duan';
 
 import Xacthucdangki from './components/xacthucdangki';
 import Testemail from './components/kiemtraemail';
-import Testlogin from './components/testlogin';
+import Doimatkhau from './components/doimatkhaudaquen';
 import Quenmatkhau from './components/quenmatkhau';
 // Customer Components
 import TrangChu from './components/Customer/customer-trangchu';
@@ -77,7 +77,7 @@ import InvestorNaptien from './components/Investor/investor-naptien';
 import InvestorNaptienkhachhang from './components/Investor/investor-naptienkhachhang';
 import InvestorLichsugiaodich from './components/Investor/investor-lichsugiaodich';
 import InvestorDoimatkhau from './components/Investor/investor-doimatkhau';
-
+import Investorchitietbatdongsan from './components/Investor/investor-chitietbatdongsan';
 // Agency Components
 import Agencytindang from './components/Agency/agency-tindang';
 import Agencythongtinchitiet from './components/Agency/agency-thongtinchitiet';
@@ -126,7 +126,7 @@ function RealEstate() {
         <Routes>
           {/* Public Routes */}
           <Route path="/kiemtraemail" element={<><Testemail /></>} />
-          <Route path="/testlogin" element={<><Testlogin /></>} />
+          <Route path="/doimatkhaudaquen" element={<><Doimatkhau /></>} />
           <Route path="/xacthucdangki" element={<><Xacthucdangki /></>} />
           <Route path="/quenmatkhau" element={<><Quenmatkhau /></>} />
           
@@ -163,6 +163,7 @@ function RealEstate() {
           <Route path="/naptienkhachhang" element={<InvestorNaptienkhachhang />} />
           <Route path="/lichsugiaodich" element={<InvestorLichsugiaodich />} />
           <Route path="/investordoimatkhau" element={<InvestorDoimatkhau />} />
+          <Route path="/chitietbatdongsan/:id" element={<Investorchitietbatdongsan />} />
 
           {/* Agency Routes */}
           <Route path="/agencytindang" element={<><Agencytindang /></>} />
