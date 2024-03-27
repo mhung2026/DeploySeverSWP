@@ -25,7 +25,7 @@ export default function Doimatkhaudaquen() {
     e.preventDefault();
 
     if (newPassword !== confirmPassword) {
-      toast.error("Passwords do not match.");
+      toast.error("Mật khẩu không trùng.");
       return;
     }
 
