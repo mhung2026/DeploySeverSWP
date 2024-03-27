@@ -50,9 +50,9 @@ body {
     margin-bottom: 10px;
 }
 
-.col-md-3 {
+/* .col-md-3 {
     justify-content: left;
-}
+} */
 
 .part1 {
     display: flex;
@@ -61,18 +61,18 @@ body {
 
 }
 
-.part1 .lgo-bds {
-    width: 50%;
-    height: 50%;
+.part1 .lgo-bds-ft {
+    width: 80%;
+    height: 80%;
     margin-top: 20px;
-    margin-left: 25px;
+    margin-left: 23px;
 }
 
 .part1 .text-intro {
     width: 80%;
-    margin-bottom: 40px;
-    margin-left: 180px;
-
+    margin-top: 20px;
+    margin-bottom: 30px;
+    margin-left: 40px;
 }
 
 .footer2 {
@@ -89,10 +89,23 @@ body {
 
 }
 
+.ft-icon h5{
+    margin-top: 55px;
+}
+
+.ft-icon{
+    color: white;
+    margin-left: 80px;
+}
+.ft-icon a{
+    text-decoration: none;
+    color: white;
+}
+
 .duan,
 .dichvu,
 .email {
-    align-self: flex-start;
+    align-self: flex-start;;
 }
 
 .text-duan,

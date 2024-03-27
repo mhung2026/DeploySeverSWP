@@ -2,12 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import duan from '../list/duan';
-import tintuc from '../list/tintuc';
+import tintuc from '../list/tintuc'
 import '@fortawesome/fontawesome-free/css/all.css';
 import { getToken } from '../authentication/Auth';
 import listheaderCustomer from '../list/listheaderCustomer';
 import listheaderAgency from '../list/listheaderAgency';
 import listheaderInvestor from '../list/listheaderInvestor';
+import { NavLink } from 'react-router-dom';
 
 export default function Header() {
     const userLoginBasicInformationDto = JSON.parse(localStorage.getItem('userLoginBasicInformationDto'));
@@ -35,21 +36,23 @@ export default function Header() {
                     <span></span>
                     <span></span>
                 </button>
-                <a class="navbar-brand text-brand" href="/trangchu">Estate<span class="color-b">Agency</span></a>
+                <a class="navbar-brand text-brand" href="/trangchu"> 
+                    <img className='lgo-header' src='logoheader\logo-header.png' alt='lgo-header'/>
+                </a>
 
                 <div class="navbar-collapse collapse justify-content-center" id="navbarDefault">
                     <ul class="navbar-nav">
 
-                        <li class="nav-item">
-                            <a class="nav-link active" href="/trangchu">Trang chủ</a>
+                        <li className="nav-item">
+                            <NavLink exact activeClassName="active" className="nav-link" to="/trangchu">Trang chủ</NavLink>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link " href="/gioithieu">Giới thiệu</a>
+                        <li className="nav-item">
+                            <NavLink activeClassName="active" className="nav-link" to="/gioithieu">Giới thiệu</NavLink>
                         </li>
 
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="/tintuc" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tin tức</a>
+                            <NavLink activeClassName="active" className="nav-link dropdown-toggle" id='navbarDropdown' role='button' data-bs-toggle='dropdown' aria-haspopup='true' aria-expanded='false' to="/tintuc">Tin tức</NavLink>
                             <div class="dropdown-menu">
                                 {tintuc.map((tintuc) => (
                                     <li key={tintuc.id}><Link className='text-drop' to={tintuc.link}>{tintuc.title}</Link></li>
@@ -59,7 +62,7 @@ export default function Header() {
 
 
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="/duan" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dự án</a>
+                            <NavLink activeClassName="active" className="nav-link dropdown-toggle" id='navbarDropdown' role='button' data-bs-toggle='dropdown' aria-haspopup='true' aria-expanded='false' to="/duan">Dự án</NavLink>
                             <div class="dropdown-menu">
                                 {duan.map((duan) => (
                                     <li key={duan.id}><Link className='text-drop' to={duan.link}>{duan.name}</Link></li>
@@ -67,7 +70,7 @@ export default function Header() {
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="/lienhe">Liên hệ</a>
+                            <NavLink activeClassName="active" className="nav-link" to="/lienhe">Liên hệ</NavLink>
                         </li>
                     </ul>
                 </div>
@@ -97,9 +100,6 @@ export default function Header() {
                         </div>
                     </button>
                 </div>
-
-
-
             </div>
         </nav>
     )
