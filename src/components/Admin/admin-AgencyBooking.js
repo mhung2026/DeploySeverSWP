@@ -18,7 +18,7 @@ export default function AdminAgencyBooking() {
                 const getAllRes = await CallApi.getAllReservations();
                 // Lọc ra những reservation có agencyId
                 const getAgenBook = getAllRes.filter(
-                    reservation => reservation.agencyId !== null && reservation.status === 1
+                    reservation => reservation.agencyId !== null && reservation.status === 2
                 );
 
                 // Lập bản đồ để đếm số lần booking cho mỗi Agency
