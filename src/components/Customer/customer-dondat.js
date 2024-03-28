@@ -17,7 +17,7 @@ export default function Customerdondat() {
         async function fetchData() {
             try {
                 const callDataReservations = await CallApi.getAllReservations();
-                const filteredReservations = callDataReservations.filter(reservation => reservation.status === 1 && reservation.customerId === customerId);
+                const filteredReservations = callDataReservations.filter(reservation => (reservation.status === 2 || reservation.status === 1) && reservation.customerId === customerId);
                 setCustomerReservation(filteredReservations);
                 const callDataRealEstateData = await CallApi.getAllRealEstate();
                 setRealEstates(callDataRealEstateData);
