@@ -15,8 +15,9 @@ export default function AdminDuyetdatcoc() {
         const fetchRealEstate = async () => {
             try {
                 const allRealEstateResponse = await CallApi.getAllRealEstate();
-                const realEstatesWithPerimeter = allRealEstateResponse.filter(re => re.perimeter);
+                const realEstatesWithPerimeter = allRealEstateResponse.filter(re => re.perimeter && (re.status === 3 || re.status === 5));
                 setRealEstatesWithPerimeter(realEstatesWithPerimeter);
+                
                 const callDataRealEstateData = await CallApi.getAllRealEstate();
                 setRealEstates(callDataRealEstateData);
                 const callDataAllAccount = await CallApi.getAllAccount();

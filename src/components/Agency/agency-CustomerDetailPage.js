@@ -221,8 +221,8 @@ export default function AgencyCustomerDetailPage() {
             {sold ? (
                 <div>
                     <span>Đã bán</span>
-                    {filterRealEstate && filterRealEstate.firebaseId && (
-                        <img src={filterRealEstate.firebaseId} alt="Firebase Image" />
+                    {filterRealEstate && filterRealEstate.contract && (
+                        <img src={filterRealEstate.contract} alt="Firebase Image" />
                     )}
                     <div>
                         {/* <input type="file" onChange={handleFileChange} multiple />
