@@ -127,28 +127,36 @@ export default function AdminRealEstateDetail() {
         <div className="real-estate-detail-container">
             <h2 className="title">Thông tin chi tiết Villa</h2>
             <div className="status">Trạng thái: {getRealEstateStatusById(realEstate.status)}</div>
-                <p>ID: {realEstate.id}</p>
-                <p>Name: {realEstate.perimeter}</p>
-                <p>City: {foundLocation.city}</p>
-                <p>District: {foundLocation.district}</p>
-                <p>Ward: {foundLocation.ward}</p>
-                <img src={realEstate.firebaseId} alt="Ảnh Đặt Cọc" style={{ maxWidth: '400px', height: 'auto' }} className="image" />
-
-                {customerInfo && (
-                    <div className="customer-info">
-                        <h3>Thông tin khách hàng:</h3>
-                        <p>Username: {customerInfo.username}</p>
-                        <p>Phone Number: {customerInfo.phoneNumber}</p>
-                        <p>Email: {customerInfo.email}</p>
-                    </div>
-                )}
-
-                {realEstate.status !== 8 && (
-                    <button onClick={handleReject} className="reject-button">Không Duyệt</button>
-                )}
-                <button onClick={handleApprove} className="approve-button">Duyệt</button>
-                <ToastContainer /> {/* Thông báo toàn cục */}
-            </div>
-    
+            <p>ID: {realEstate.id}</p>
+            <p>Name: {realEstate.perimeter}</p>
+            <p>City: {foundLocation.city}</p>
+            <p>District: {foundLocation.district}</p>
+            <p>Ward: {foundLocation.ward}</p>
+            {realEstate.firebaseId && (
+                <div>
+                    <h4>Ảnh Đặt Cọc:</h4>
+                    <img src={realEstate.firebaseId} alt="Ảnh Đặt Cọc" style={{ maxWidth: '400px', height: 'auto' }} className="image" />
+                </div>
+            )}
+            {realEstate.contract && (
+                <div>
+                    <h4>Ảnh Hợp Đồng:</h4>
+                    <img src={realEstate.contract} alt="Ảnh Hợp Đồng" style={{ maxWidth: '400px', height: 'auto' }} className="image" />
+                </div>
+            )}
+            {customerInfo && (
+                <div className="customer-info">
+                    <h3>Thông tin khách hàng:</h3>
+                    <p>Username: {customerInfo.username}</p>
+                    <p>Phone Number: {customerInfo.phoneNumber}</p>
+                    <p>Email: {customerInfo.email}</p>
+                </div>
+            )}
+            {realEstate.status !== 8 && (
+                <button onClick={handleReject} className="reject-button">Không Duyệt</button>
+            )}
+            <button onClick={handleApprove} className="approve-button">Duyệt</button>
+            <ToastContainer /> {/* Thông báo toàn cục */}
+        </div>
     );
 }

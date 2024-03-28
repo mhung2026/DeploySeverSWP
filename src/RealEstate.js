@@ -102,6 +102,8 @@ import AdminThemthoigian from './components/Admin/admin-SetTime';
 import AdminTaotaikhoanagency from './components/Admin/admin-creaccountagency';
 import AdminAllAccount from './components/Admin/admin-allaccount';
 import AdminHeader from './components/Admin/admin-header';
+import Adminhongke from './components/Admin/admin-thongke';
+
 function RealEstate() {
   const [userInfo, setUserInfo] = useState(null);
   const [initialPageLoad, setInitialPageLoad] = useState(true);
@@ -184,7 +186,6 @@ function RealEstate() {
           <Route path="/reservation-details/:timeSlot/:date" element={<AdminReservationDetailPage />} />
           <Route path="/real-estate/:id" element={<AdminRealEstateDetail />} />
           <Route path="/thongtinbatdongsan/:id" element={<AdminThongtinbatongsan />} />
-
           <Route path="/admin-duyetdatcoc" element={<AdminDuyetdatcoc />} />
           <Route path="/admin-duyettindang" element={<Adminduyettindang />} />
           <Route path="/admin-xemdonhoanthanh" element={<AdminXemdonhoanthanhagency />} />
@@ -193,6 +194,8 @@ function RealEstate() {
           <Route path="/admin-themthoigianxemngay" element={<AdminThemthoigian />} />
           <Route path="/admin-taotaikhoanagency" element={<AdminTaotaikhoanagency />} />
           <Route path="/admin-tatcataikhoan" element={<AdminAllAccount />} />
+          <Route path="/admin-thongke" element={<Adminhongke />} />
+          
         </Routes>
         {!isAdmin && <Footer />}
       </div>

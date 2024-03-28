@@ -27,13 +27,15 @@ export default function AdminSetTime() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const getALlReservation = await CallApi.GetAllReservationTime();
-      
-        setAllReservations(getALlReservation); // Cập nhật state với dữ liệu từ API
+        const getAllReservation = await CallApi.GetAllReservationTime();
+        // Fillter những ngày tương lai và hiện tại
+        const futureReservations = getAllReservation.filter(reservation => moment(reservation.date).isSameOrAfter(moment().startOf('day')));
+        setAllReservations(futureReservations); // Cập nhật state với dữ liệu từ API
       } catch (error) {
         console.error("Error at fetchData", error);
       }
     };
+    
     const fetchUpdatedData = async () => {
       while (true) {
           await fetchData();
@@ -52,6 +54,14 @@ export default function AdminSetTime() {
       console.log(`${id}: "${getTimeDisplay(id)}"`);
     });
   }, [selectedDate, selectedTimes]);
+
+  useEffect(() => {
+    // Filter out past dates
+    const now = moment().startOf('day');
+    if (filteredDate && moment(filteredDate).isBefore(now)) {
+      setFilteredDate(now.toDate());
+    }
+  }, [filteredDate]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -123,6 +133,7 @@ export default function AdminSetTime() {
               selected={selectedDate}
               onChange={date => setSelectedDate(date)}
               dateFormat="yyyy-MM-dd"
+              minDate={new Date()} // Set minDate to today's date
             />
           </div>
           <div className="time-buttons">
@@ -147,6 +158,7 @@ export default function AdminSetTime() {
               selected={filteredDate}
               onChange={date => setFilteredDate(date)}
               dateFormat="yyyy-MM-dd"
+              minDate={new Date()} // Set minDate to today's date
             />
           </div>
           <button onClick={handleShowAllReservations} className="custom-button" style={{ color: "black" }}>Hiện toàn bộ lịch đặt</button>

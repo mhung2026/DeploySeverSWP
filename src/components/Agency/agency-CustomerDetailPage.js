@@ -127,6 +127,7 @@ export default function AgencyCustomerDetailPage() {
     // Function to handle marking property as sold
     const markAsSold = async () => {
         try {
+            const accessToken = localStorage.getItem('accessToken');
             const firebaseUrls = await Promise.all(selectedFiles.map(uploadFileToFirebase));
             // Create requestData with status 5
             const requestData = {
@@ -152,25 +153,29 @@ export default function AgencyCustomerDetailPage() {
                 Ward: locationId.ward,
                 District: locationId.district,
             };
-
+    
             console.log('Sending data to Swagger:', requestData);
-
+    
             // Send data to Swagger
-            // axios.put(`http://swprealestatev2-001-site1.etempurl.com/api/invester/updatePostById/${realEstateId}`, requestData)
-            axios.put(`http://swprealestatev2-001-site1.etempurl.com/api/agency/updatePostById/${realEstateId}`, requestData)
-                .then(response => {
-                    console.log('Response from Swagger:', response.data);
-                    setToastMessage('Đã đánh dấu là đã bán!');
-                    toast.success('Đã đánh dấu là đã bán!');
-                    setSold(true); // Set the sold state to true
-                })
-                .catch(error => {
-                    console.error('Error sending data to Swagger:', error);
-                });
+            axios.put(`http://swprealestatev2-001-site1.etempurl.com/api/agency/updatePostById/${realEstateId}`, requestData, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            })
+            .then(response => {
+                console.log('Response from Swagger:', response.data);
+                setToastMessage('Đã đánh dấu là đã bán!');
+                toast.success('Đã đánh dấu là đã bán!');
+                setSold(true); // Set the sold state to true
+            })
+            .catch(error => {
+                console.error('Error sending data to Swagger:', error);
+            });
         } catch (error) {
             console.error('Error marking as sold:', error);
         }
     };
+    
 
     return (
         <div>

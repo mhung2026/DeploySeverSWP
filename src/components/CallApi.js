@@ -1,6 +1,6 @@
 // CallApi.js
 import axios from 'axios';
-
+const accessToken = localStorage.getItem('accessToken');
 class CallApi {
     static async getAllReservations() {
         try {
@@ -103,6 +103,28 @@ class CallApi {
             return null;
         }
     }
+    static async GetAllReservationByAgencyId(agencyId) {
+        try {
+            const accessToken = localStorage.getItem('accessToken');
+    
+            if (!accessToken) {
+                console.error('Access token not found');
+                return null;
+            }
+    
+            const response = await axios.get(`http://swprealestatev2-001-site1.etempurl.com/api/agency/getAllReservationByAgencyId/${agencyId}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching real estate data:', error);
+            return null;
+        }
+    }
+    
+    
 
     
     static findReservationById(reservationData, id) {

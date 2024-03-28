@@ -8,7 +8,8 @@ const userAdmin = [
     { id: 6, name: 'Lịch sử hoàn thành đơn Agency ', link: '/admin-xemdonhoanthanh' },
     { id: 7, name: 'Xác thực đặt cọc/bán', link: '/admin-duyetdatcoc' },
     { id: 8, name: 'Duyệt Villa', link: '/admin-duyettindang' },
-    { id: 9, name: 'Đăng Xuất', link: '/logout' },
+    { id: 9, name: 'Thống kê', link: '/admin-thongke' },
+    { id: 10, name: 'Đăng Xuất', link: '/logout' },
     // Add more services as needed
 ];
 
