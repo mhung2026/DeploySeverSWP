@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AgencyMenu from './agency-menu';
 import UserAgency from '../../list/userAgency';
 import CallApi from '../CallApi';
-import axios from 'axios'; // Import axios for making HTTP requests
+import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -10,8 +10,11 @@ export default function AdminDetailBookingAgen() {
     const userLoginBasicInformationDto = JSON.parse(localStorage.getItem('userLoginBasicInformationDto'));
     const getAgencyId = parseInt(userLoginBasicInformationDto.accountId);
     const [bookReservations, setBookReservations] = useState([]);
-    const [realEstates, setRealEstates] = useState([]); // State to store real estates
-    const [accounts, setAccounts] = useState([]); // State to store accounts
+    const [realEstates, setRealEstates] = useState([]);
+    const [accounts, setAccounts] = useState([]);
+    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [isFiltering, setIsFiltering] = useState(false);
+    const [filteredBookReservations, setFilteredBookReservations] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -23,13 +26,21 @@ export default function AdminDetailBookingAgen() {
                 const callDataRealEstateData = await CallApi.getAllRealEstate();
                 setRealEstates(callDataRealEstateData);
                 const callDataAllAccount = await CallApi.getAllAccount();
-                setAccounts(callDataAllAccount); // Set accounts data
+                setAccounts(callDataAllAccount);
             } catch (error) {
                 console.error('Error at fetchData', error);
             }
         };
         fetchData();
     }, [getAgencyId]);
+
+    useEffect(() => {
+        if (isFiltering) {
+            setFilteredBookReservations(bookReservations.filter(reservation => formatDate(reservation.bookingDate) === formatDate(selectedDate)));
+        } else {
+            setFilteredBookReservations(bookReservations);
+        }
+    }, [selectedDate, bookReservations, isFiltering]);
 
     const getRealEstateNameById = (realEstateId) => {
         const realEstate = realEstates.find(item => item.id === realEstateId);
@@ -50,9 +61,10 @@ export default function AdminDetailBookingAgen() {
     };
 
     const handleCompleteClick = async () => {
+        const reservationsToMarkComplete = isFiltering ? filteredBookReservations : bookReservations;
         if (window.confirm("Bạn có chắc chắn muốn đánh dấu tất cả các đơn đặt chỗ này là đã hoàn thành không?")) {
             try {
-                await Promise.all(bookReservations.map(async reservation => {
+                await Promise.all(reservationsToMarkComplete.map(async reservation => {
                     await axios.put(`http://swprealestatev2-001-site1.etempurl.com/api/reservation/UpdateReservation/${reservation.id}`, {
                         realEstateId: reservation.realEstateId,
                         customerId: reservation.customerId,
@@ -75,6 +87,14 @@ export default function AdminDetailBookingAgen() {
         }
     };
 
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+    };
+
+    const toggleFilter = () => {
+        setIsFiltering(!isFiltering);
+    };
+
     return (
         <div className='outer-container1'>
             <div className='container12'>
@@ -84,6 +104,11 @@ export default function AdminDetailBookingAgen() {
                 />
                 <div className='col-md-9 '>
                     <ToastContainer position="top-right" autoClose={1000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+                    <div>
+                        <label>Chọn ngày:</label>
+                        <input type="date" value={selectedDate.toISOString().split('T')[0]} onChange={(e) => handleDateChange(new Date(e.target.value))} />
+                        <button onClick={toggleFilter}>{isFiltering ? 'Hiển thị tất cả' : 'Lọc'}</button>
+                    </div>
                     {bookReservations.length > 0 ? (
                         <table>
                             <thead>
@@ -97,7 +122,7 @@ export default function AdminDetailBookingAgen() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {bookReservations.map((reservation, index) => (
+                                {filteredBookReservations.map((reservation, index) => (
                                     <tr key={index}>
                                         <td>{reservation.id}</td>
                                         <td>{getRealEstateNameById(reservation.realEstateId)}</td>
