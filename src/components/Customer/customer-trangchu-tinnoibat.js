@@ -2,11 +2,25 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
+
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import { CiFilter } from "react-icons/ci";
+
 export default function Customertrangchubanvila() {
   const [realEstates, setRealEstates] = useState([]);
   const [locations, setLocations] = useState([]);
   const [city, setCity] = useState('');
   const [showAllEstates, setShowAllEstates] = useState(false); // Trạng thái để kiểm soát việc hiển thị tất cả các căn hộ
+
+
+  const [num, setNum] = React.useState('');
+  const handleChange = (event) => {
+    setNum(event.target.value);
+  };
 
   useEffect(() => {
     axios.get('http://swprealestatev2-001-site1.etempurl.com/api/invester/getAllRealEstate')
@@ -91,51 +105,187 @@ export default function Customertrangchubanvila() {
   return (
     // JSX
     <div>
-
-      <div className="estate-container">
-        <div className='main-title'>
-          <div class="real-title">
+      <div className='search-home' style={{ justifyContent: "center", display: "flex" }}>
+        {/* <div className='main-title1 col-md-6'>
+          <div class="real-title1">
             <div className='text-realtitle'>
-              <span className='textso1'>NHÀ ĐẤT</span>
-              <h2 className='textso2'>NỔI BẬT</h2>
+              <i><CiFilter size={50}/></i>
+              <span className='textso1'></span>
+            </div>
+          </div>
+        </div> */}
+        <FormControl sx={{ m: 1, minWidth: 200 }}>
+          <InputLabel id="demo-simple-select-helper-label">
+            Tỉnh
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-helper-label"
+            id="demo-simple-select-helper"
+            value={num}
+            label="Num"
+            onChange={handleChange}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value={10}>Bình Định</MenuItem>
+            <MenuItem value={20}>Lâm Đồng</MenuItem>
+            <MenuItem value={30}>Khánh Hòa</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl sx={{ m: 1, minWidth: 200 }}>
+          <InputLabel id="demo-simple-select-helper-label">
+            Quận
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-helper-label"
+            id="demo-simple-select-helper"
+            value={num}
+            label="Num"
+            onChange={handleChange}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value={10}>Bình Tân</MenuItem>
+            <MenuItem value={20}>Phú Nhuận</MenuItem>
+            <MenuItem value={30}>Tân Phú</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl sx={{ m: 1, minWidth: 200 }}>
+          <InputLabel id="demo-simple-select-helper-label">
+            Phường
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-helper-label"
+            id="demo-simple-select-helper"
+            value={num}
+            label="Num"
+            onChange={handleChange}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value={10}>Lê Lợi</MenuItem>
+            <MenuItem value={20}>Phước Thiện</MenuItem>
+            <MenuItem value={30}>Đống Đa</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl sx={{ m: 1, minWidth: 200 }}>
+          <InputLabel id="demo-simple-select-helper-label">
+            Hướng
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-helper-label"
+            id="demo-simple-select-helper"
+            value={num}
+            label="Num"
+            onChange={handleChange}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value={10}>Đông</MenuItem>
+            <MenuItem value={20}>Tây</MenuItem>
+            <MenuItem value={30}>Nam</MenuItem>
+            <MenuItem value={30}>Bắc</MenuItem>
+          </Select>
+        </FormControl>
+
+      </div>
+      <div className="estate-container">
+        <div className="main-title">
+          <div class="real-title">
+            <div className="text-realtitle">
+              <span className="textso1">DỰ ÁN BẤT ĐỘNG SẢN</span>
+              <h2 className="textso2">NỔI BẬT</h2>
             </div>
           </div>
         </div>
         {/* <h1 className="investor-heading">Real Estates for Investor ID 2:</h1> */}
         <div className="estates-wrapper">
-
           {realEstates.map((estate, index) => (
-            <div key={index} className="estate-item" style={{ display: showAllEstates ? 'block' : (index < 6 ? 'block' : 'none') }}>
+            <div
+              key={index}
+              className="estate-item"
+              style={{
+                display: showAllEstates
+                  ? "block"
+                  : index < 6
+                    ? "block"
+                    : "none"
+              }}
+            >
               <div className="estate-info">
                 <div className="image-container">
-                  {getFrontImages(estate).map((image, imageIndex) => (
-                    <div key={imageIndex} className="image-item">
-                      <img src={image.imageUrl} alt={image.imageName} className="estate-image" />
-                    </div>
-                  ))}
+                  {getFrontImages(estate).map(
+                    (image, imageIndex) => (
+                      <div
+                        key={imageIndex}
+                        className="image-item"
+                      >
+                        <img
+                          src={image.imageUrl}
+                          alt={image.imageName}
+                          className="estate-image"
+                        />
+                      </div>
+                    )
+                  )}
                 </div>
 
-                <Link to={estate.link} className="estate-name">{estate.realestateName}</Link>
-                <span className="estate-discription">{limitWords(estate.discription, 15)}</span>
-                <div className='thanhphoprice'>
-                  <div className='logo-thanhpho'>
-                    <img className='logo-location' src='/logotrangchu/location.png' />
-                    <span className='thanhpho'>{city}</span>
+                <div className="name-status">
+                  <Link
+                    to={estate.link}
+                    className="estate-name"
+                  >
+                    {estate.realestateName}
+                  </Link>
+                  <div className="status-tag positive-medium status">
+                    <i
+                      className="highlight positive-medium"
+                      style={{
+                        Animation:
+                          "IterationCount: infinite",
+                        animationIterationCount:
+                          "infinite"
+                      }}
+                    ></i>
+                    <p className="status-tag__txt bac-l-stack-xs">
+                      Đang mở bán
+                    </p>
                   </div>
-                  <span className='price'>{getPrice(estate)}</span>
-
                 </div>
-                <span className='trangthaiban'>{getStatus(estate)}</span>
 
+                <span className="estate-discription">
+                  {limitWords(estate.discription, 15)}
+                </span>
+                <div className="thanhphoprice">
+                  <div className="logo-thanhpho">
+                    <img
+                      className="logo-location"
+                      src="/logotrangchu/location.png"
+                    />
+                    <span className="thanhpho">{city}</span>
+                  </div>
+                  <span className="price re__project-open re__prj-tag-info re__prj-tag-info-fix">
+                    {getPrice(estate)}
+                  </span>
+                </div>
+                <span className="trangthaiban">
+                  {getStatus(estate)}
+                </span>
               </div>
-
             </div>
           ))}
         </div>
         {/* Nút "Xem Thêm" */}
         {!showAllEstates && realEstates.length > 3 && (
           <div className="button-container">
-            <button onClick={handleShowAllEstates} className="show-more-button">
+            <button
+              onClick={handleShowAllEstates}
+              className="show-more-button"
+            >
               Xem Thêm
             </button>
           </div>
@@ -144,7 +294,10 @@ export default function Customertrangchubanvila() {
         {/* Nút "Thu Gọn" */}
         {showAllEstates && (
           <div className="button-container">
-            <button onClick={() => setShowAllEstates(false)} className="show-more-button">
+            <button
+              onClick={() => setShowAllEstates(false)}
+              className="show-more-button"
+            >
               Thu Gọn
             </button>
           </div>

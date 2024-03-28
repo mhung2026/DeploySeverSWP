@@ -1,0 +1,23 @@
+body{
+    margin: 0;
+}
+
+svg{
+    margin-right: 1000px;
+
+}
+
+path {
+    margin-left: 100px;
+}
+
+.containerSlide {
+    width: 1060px;
+    margin: auto;
+    /* padding-top: 200px; */
+  }
+  
+  .containerSlide img {
+    height: 560px;
+  }
+  

@@ -1,152 +1,95 @@
-/* CSS for role selection */
-.rolemoi {
-    width: 400px; /* Điều chỉnh chiều rộng của phần chứa nút */
-    margin: 250px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #f9f9f9;
+body {
+    margin: 0;
+    color: #6a6f8c;
+    background: #c8c8c8;
+    font-family: Arial, sans-serif; /* Thay đổi font chữ */
+}
+.register-form {
+    width: 100%;
+    max-width: 400px; /* Điều chỉnh kích thước của form đăng ký */
+    margin: 0 auto; /* Đặt form ở giữa trang */
+    background-color: #fff; /* Màu nền của form */
+    padding: 20px; /* Khoảng cách giữa nội dung và viền của form */
+    border-radius: 10px; /* Bo góc của form */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng cho form */
 }
 
-.chonrole {
-    text-align: center;
-    font-size: 24px;
-    margin-bottom: 20px;
+.box-radio {
+    margin: 20px;
 }
-
-.taorole {
-    display: flex;
-    justify-content: center;
+.status p{
+    font-weight: bold;
+    font-size: 14px;
 }
-
-.taorole button {
-    flex: 1; /* Chia đều chiều rộng của các nút */
-    background-color: #35CB6D;
-    color: #00ff0d;
-    border: none;
-    border-radius: 10px;
-    padding: 12px 24px;
-    margin-right: 10px; /* Giảm khoảng cách giữa các nút */
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-    font-size: 18px;
-}
-
-.taorole button:last-child {
-    margin-right: 0;
-}
-
-.taorole button:hover {
-    background-color: #90c908;
-    transform: translateY(-3px);
-}
-
-.taorole button:active {
-    transform: translateY(1px);
-}
-
-.taorole button::after {
-    content: "";
-    position: absolute;
+.box {
     width: 100%;
     height: 100%;
-    background: rgba(255, 0, 0, 0.2);
-    top: 0;
-    left: 0;
-    border-radius: 10px;
-    transition: opacity 0.3s, transform 0.3s;
-    pointer-events: none;
-    opacity: 0;
-    z-index: -1;
+    position: relative;
+    padding: 20px;
+    margin-top: 100px;
 }
 
-.taorole button:hover::after {
-    opacity: 1;
+.error-msg {
+    color: red;
 }
 
-.taorole button:active::after {
-    transform: scale(1.1);
+.info-msg {
+    color: green;
 }
 
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.form-group {
+    margin-bottom: 15px;
 }
 
-.formdangkytaikhoan {
+.form-control {
     width: 100%;
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 40px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    animation: slideIn 0.5s ease;
-}
-
-.formdangkytaikhoan h2 {
-    text-align: center;
-    color: #333;
+    padding: 10px;
+    border-radius: 25px;
+    background-color: rgba(131, 246, 140, 0.1);
+    border: 1px solid black;
     margin-bottom: 30px;
 }
 
-.formdangkytaikhoan form {
-    display: flex;
-    flex-direction: column;
+label {
+    /* color: #aaa; */
+    font-size: 15px;
+    text-transform: uppercase;
+    display: block;
+    /* margin-bottom: -50px; */
 }
 
-.formdangkytaikhoan label {
-    margin-bottom: 15px;
-    color: #555;
-    font-weight: bold;
-}
-
-.formdangkytaikhoan input[type="text"],
-.formdangkytaikhoan input[type="password"],
-.formdangkytaikhoan input[type="email"] {
-    padding: 15px;
-    margin-bottom: 20px;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    transition: border-color 0.3s ease;
-    font-weight: bold;
-    width: calc(100% - 30px);
-}
-
-.formdangkytaikhoan input[type="text"]:focus,
-.formdangkytaikhoan input[type="password"]:focus,
-.formdangkytaikhoan input[type="email"]:focus {
-    border-color: #66afe9;
-}
-
-.formdangkytaikhoan button {
-    padding: 15px 0;
-    background-color: #90c908;
-    color: white;
-    border: none;
-    border-radius: 8px;
+.btn {
+    padding: 10px 20px;
+    border-radius: 25px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-weight: bold;
-    width: calc(100% - 30px);
+    border: none;
+    outline: none;
 }
 
-
-.group1 .label1 {
-    color: #aaa;
-    font-size: 12px;
-  }
-.inputtype{
-    width: 100%;
-    height: 40px;
-    border-radius: 50px;
-    border: 1px solid #000;
+.btn-success {
+    /* background-color: #35CB6D; */
+    background-color: white;
+    color: white;
 }
 
+.btn-md {
+    font-size: 16px;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Radio button styles */
+.radio-label {
+    margin-right: 15px;
+    margin-bottom: 10px;
+}
+
+/* Adjustments for smaller screens */
+@media (max-width: 768px) {
+    .box {
+        margin-top: 50px;
+    }
+}

@@ -2,7 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CallApi from '../CallApi';
 
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import { CiFilter } from "react-icons/ci";
+
 export default function Customertrangchubanvila() {
+  const [num, setNum] = React.useState('');
+  const handleChange = (event) => {
+    setNum(event.target.value);
+  };
+
   const [realEstates, setRealEstates] = useState([]);
   const [locations, setLocations] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -84,7 +96,97 @@ export default function Customertrangchubanvila() {
   };
 
   return (
+    
     <div>
+      <div className='search-home' style={{ justifyContent: "center", display: "flex" }}>
+        {/* <div className='main-title1 col-md-6'>
+          <div class="real-title1">
+            <div className='text-realtitle'>
+              <i><CiFilter size={50}/></i>
+              <span className='textso1'></span>
+            </div>
+          </div>
+        </div> */}
+        <FormControl sx={{ m: 1, minWidth: 200 }}>
+          <InputLabel id="demo-simple-select-helper-label">
+            Tỉnh
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-helper-label"
+            id="demo-simple-select-helper"
+            value={num}
+            label="Num"
+            onChange={handleChange}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value={10}>Bình Định</MenuItem>
+            <MenuItem value={20}>Lâm Đồng</MenuItem>
+            <MenuItem value={30}>Khánh Hòa</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl sx={{ m: 1, minWidth: 200 }}>
+          <InputLabel id="demo-simple-select-helper-label">
+            Quận
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-helper-label"
+            id="demo-simple-select-helper"
+            value={num}
+            label="Num"
+            onChange={handleChange}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value={10}>Bình Tân</MenuItem>
+            <MenuItem value={20}>Phú Nhuận</MenuItem>
+            <MenuItem value={30}>Tân Phú</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl sx={{ m: 1, minWidth: 200 }}>
+          <InputLabel id="demo-simple-select-helper-label">
+            Phường
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-helper-label"
+            id="demo-simple-select-helper"
+            value={num}
+            label="Num"
+            onChange={handleChange}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value={10}>Lê Lợi</MenuItem>
+            <MenuItem value={20}>Phước Thiện</MenuItem>
+            <MenuItem value={30}>Đống Đa</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl sx={{ m: 1, minWidth: 200 }}>
+          <InputLabel id="demo-simple-select-helper-label">
+            Hướng
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-helper-label"
+            id="demo-simple-select-helper"
+            value={num}
+            label="Num"
+            onChange={handleChange}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value={10}>Đông</MenuItem>
+            <MenuItem value={20}>Tây</MenuItem>
+            <MenuItem value={30}>Nam</MenuItem>
+            <MenuItem value={30}>Bắc</MenuItem>
+          </Select>
+        </FormControl>
+
+      </div>
+
       <div className="estate-container">
         <div className='main-title'>
           <div className="real-title">

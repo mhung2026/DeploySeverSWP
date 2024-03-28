@@ -34,6 +34,10 @@ a:hover {
     text-decoration: none;
 }
 
+.lgo-header {
+    width: 250px;
+}
+
 .link-two {
     color: #000000;
     transition: all 0.5s ease;

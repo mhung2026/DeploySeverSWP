@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { saveToken } from '../authentication/Auth';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Link } from "react-router-dom";
+import Form from "react-bootstrap/Form";
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -71,7 +73,7 @@ const Login = () => {
 
     return (
         <div className="login-wrap">
-            <div className="login-html">
+            {/* <div className="login-html">
                 <input id="tab-1" type="radio" name="tab" className="sign-in" checked /><label htmlFor="tab-1" className="tab">Đăng nhập</label>
                 <input id="tab-2" type="radio" name="tab" className="sign-up" /><label htmlFor="tab-2" className="tab"></label>
                 <div className="login-form">
@@ -99,6 +101,53 @@ const Login = () => {
                         <div className="foot-lnk1">
                             Bạn chưa có tài khoản? Đăng ký <a href='/dangki' style={{textDecoration: 'none', color: '#35CB6D'}}>Tại đây</a>
                         </div>
+                    </div>
+                </div>
+            </div> */}
+            <div className="form_login">
+                <div className="login">
+                    <p>ĐĂNG NHẬP</p>
+                    <div className="label">
+                        <Form.Floating className="mb-3">
+                            <Form.Control
+                                id="floatingInputCustom"
+                                type="email"
+                                placeholder="name@example.com"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                            />
+                            <label htmlFor="floatingInputCustom">
+                                Email
+                            </label>
+                        </Form.Floating>
+                        <Form.Floating>
+                            <Form.Control
+                                id="floatingPasswordCustom"
+                                type="password"
+                                placeholder="Password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                            <label htmlFor="floatingPasswordCustom">
+                                Mật khẩu
+                            </label>
+                        </Form.Floating>
+                        <div className="foot-lnk" style={{}}>
+                            <a href="/quenmatkhau">Quên mật khẩu?</a>
+                        </div>
+                                                {/* <a href="/quenmatkhau">Quên mật khẩu?</a> */}
+                    </div>
+                    
+                    <div className="btn-sign">
+                    <button type="button" class="btn btn-outline-success"onClick={handleLogin} disabled={loading}>{loading ? 'Đang đăng nhập...' : 'Đăng Nhập'}</button>
+                    </div>
+                    
+                    <hr></hr>
+                    <div className="register">
+                        <a>Bạn chưa có tài khoản? </a>
+                        <Link  className='dangki' to="/Dangki">
+                        <a className='dangki' href=''>Đăng ký</a>
+                        </Link>
                     </div>
                 </div>
             </div>

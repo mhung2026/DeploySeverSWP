@@ -5,6 +5,11 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { isSignInWithEmailLink, sendSignInLinkToEmail, signInWithEmailLink } from 'firebase/auth';
 import axios from 'axios'; // Import axios
 import CallApi from './CallApi';
+import { Height } from '@mui/icons-material';
+import { height, width } from '@mui/system';
+
+import { Link } from "react-router-dom";
+import Form from "react-bootstrap/Form";
 export default function Dangki() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -163,7 +168,8 @@ export default function Dangki() {
 
 
     return (
-        <div className='box'>
+        
+        <div className='register-form'>
             {initialLoading ? (
                 <div>Loading...</div>
             ) : (
@@ -172,44 +178,116 @@ export default function Dangki() {
                         <div className='error-msg'>{initialError}</div>
                     ) : (
                         <form className='form-group custom-form' onSubmit={handleLogin}>
-                            <label>Email</label>
+                            <p>ĐĂNG KÝ</p>
+                            {/* <label>Email</label>
                             <input type={'email'} required placeholder='Enter Email'
                                 className='form-control'
-                                value={email || ''} onChange={(e) => setEmail(e.target.value)} />
+                                value={email || ''} onChange={(e) => setEmail(e.target.value)} /> */}
 
+                            <Form.Floating className="mb-3">
+                                <Form.Control
+                                    id="floatingInputCustom"
+                                    type="email"
+                                    placeholder="name@example.com"
+                                    value={email || ''} onChange={(e) => setEmail(e.target.value)}
+                                />
+                                <label htmlFor="floatingInputCustom">
+                                    Email
+                                </label>
+                            </Form.Floating>
+{/* 
                             <label>Username</label>
                             <input type={'text'} required placeholder='Enter Username'
                                 className='form-control'
-                                value={username || ''} onChange={(e) => setUsername(e.target.value)} />
+                                value={username || ''} onChange={(e) => setUsername(e.target.value)} /> */}
+                            <Form.Floating className="mb-3">
+                                <Form.Control
+                                    id="floatingInputCustom"
+                                    type="text"
+                                    placeholder="name@example.com"
+                                    value={username || ''} onChange={(e) => setUsername(e.target.value)}
+                                />
+                                <label htmlFor="floatingInputCustom">
+                                    Họ và tên
+                                </label>
+                            </Form.Floating>
 
-                            <label>Password</label>
+
+                            {/* <label>Password</label>
                             <input type={'password'} required placeholder='Enter Password'
                                 className='form-control'
-                                value={password || ''} onChange={(e) => setPassword(e.target.value)} />
+                                value={password || ''} onChange={(e) => setPassword(e.target.value)} /> */}
+
+                            <Form.Floating className="mb-3">
+                                <Form.Control
+                                    id="floatingInputCustom"
+                                    type="password"
+                                    placeholder="name@example.com"
+                                    value={password || ''} onChange={(e) => setPassword(e.target.value)}
+                                />
+                                <label htmlFor="floatingInputCustom">
+                                    Mật khẩu
+                                </label>
+                            </Form.Floating>    
+
+{/* 
                             <label>Confirm Password</label>
                             <input type={'password'} required placeholder='Confirm Password'
                                 className='form-control'
-                                value={confirmPassword || ''} onChange={(e) => setConfirmPassword(e.target.value)} />
+                                value={confirmPassword || ''} onChange={(e) => setConfirmPassword(e.target.value)} /> */}
+                            <Form.Floating className="mb-3">
+                                <Form.Control
+                                    id="floatingInputCustom"
+                                    type="password"
+                                    placeholder="name@example.com"
+                                    value={confirmPassword || ''} onChange={(e) => setConfirmPassword(e.target.value)}
+                                />
+                                <label htmlFor="floatingInputCustom">
+                                    Nhập lại mật khẩu
+                                </label>
+                            </Form.Floating>
 
-                            <label>Phone Number</label>
+                            {/* <label>Phone Number</label>
                             <input type={'tel'} required placeholder='Enter Phone Number'
                                 className='form-control'
-                                value={phoneNumber || ''} onChange={(e) => setPhoneNumber(e.target.value)} />
+                                value={phoneNumber || ''} onChange={(e) => setPhoneNumber(e.target.value)} /> */}
+                            <Form.Floating className="mb-3">
+                                <Form.Control
+                                    id="floatingInputCustom"
+                                    type="tel"
+                                    placeholder="name@example.com"
+                                    value={phoneNumber || ''} onChange={(e) => setPhoneNumber(e.target.value)}
+                                />
+                                <label htmlFor="floatingInputCustom">
+                                    Số điện thoại
+                                </label>
+                            </Form.Floating>
 
-                            <label>Address</label>
+                            {/* <label>Address</label>
                             <input type={'text'} required placeholder='Enter Address'
                                 className='form-control'
-                                value={address || ''} onChange={(e) => setAddress(e.target.value)} />
-
-                            <label>Role ID</label>
-                            <div>
-                                <label>
-                                    <input type="radio" value="3" checked={roleId === 3} onChange={handleRoleChange} />
-                                    Khách hàng
+                                value={address || ''} onChange={(e) => setAddress(e.target.value)} /> */}
+                            <Form.Floating className="mb-3">
+                                <Form.Control
+                                    id="floatingInputCustom"
+                                    type="text"
+                                    placeholder="name@example.com"
+                                    value={address || ''} onChange={(e) => setAddress(e.target.value)}
+                                />
+                                <label htmlFor="floatingInputCustom">
+                                    Địa chỉ
                                 </label>
+                            </Form.Floating>
+
+                            {/* <label>Role ID</label> */}
+                            <div className='RoleID'>
                                 <label>
-                                    <input type="radio" value="2" checked={roleId === 2} onChange={handleRoleChange} />
+                                    Khách hàng
+                                    <input style={{width:'20px',height:'20px'}} type="radio" value="3" checked={roleId === 3} onChange={handleRoleChange} />
+                                </label>
+                                <label className='box-radio'style={{marginLeft:'30%'}}>
                                     Nhà đầu tư
+                                    <input style={{width:'20px',height:'20px', marginLeft:'0px'}}type="radio" value="2" checked={roleId === 2} onChange={handleRoleChange} />
                                 </label>
                             </div>
 
@@ -217,7 +295,7 @@ export default function Dangki() {
                                 {loginLoading ? (
                                     <span>Đang đăng ký</span>
                                 ) : (
-                                    <span>Đănsg ký</span>
+                                    <span>Đăng ký</span>
                                 )}
                             </button>
                             {/* show login error msg */}
