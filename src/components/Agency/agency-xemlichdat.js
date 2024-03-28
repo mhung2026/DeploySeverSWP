@@ -137,7 +137,7 @@ export default function AdminDetailBookingAgen() {
                     ) : (
                         <p style={{ marginTop: '10px', marginLeft: '3px' }}>Không có đơn đặt chỗ nào.</p>
                     )}
-                    {bookReservations.length > 0 && (
+                    {(bookReservations.length > 0 && isFiltering=== true) && (
                         <button onClick={handleCompleteClick} style={{backgroundColor: "#35CB6D"}}>Đánh dấu tất cả đã hoàn thành</button>
                     )}
                 </div>
