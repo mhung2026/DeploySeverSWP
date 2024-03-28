@@ -15,6 +15,7 @@ export default function AgencyDatcocmuaban() {
     const [bookReservations, setBookReservations] = useState([]);
     const [realEstates, setRealEstates] = useState([]);
     const [accounts, setAccounts] = useState([]);
+
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedDate, setSelectedDate] = useState(null);
     const navigate = useNavigate();
@@ -23,11 +24,13 @@ export default function AgencyDatcocmuaban() {
         const fetchData = async () => {
             try {
                 const getAllReservations = await CallApi.getAllReservations();
-                const filteredReservations = getAllReservations.filter(reservation =>  reservation.status === 2);
+                const filteredReservations = getAllReservations.filter(reservation => (reservation.status === 2 || reservation.status === 3));
                 const getAgenId = filteredReservations.filter(AgenId => AgenId.agencyId === getAgencyId);
                 setBookReservations(getAgenId);
+
                 const callDataRealEstateData = await CallApi.getAllRealEstate();
                 setRealEstates(callDataRealEstateData);
+
                 const callDataAllAccount = await CallApi.getAllAccount();
                 setAccounts(callDataAllAccount);
             } catch (error) {
@@ -54,7 +57,12 @@ export default function AgencyDatcocmuaban() {
         const account = accounts.find(item => item.id === customerId);
         return account ? account.username : 'Unknown';
     };
-    const getStatusDescription = (status) => {
+
+    const getStatusByRealEstateId = (realEstateId) => {
+        const realEstate = realEstates.find(item => item.id === realEstateId);
+        return realEstate ? realEstate.status : 'Unknown';
+    };
+    const getStatusString = (status) => {
         switch (status) {
             case 2:
                 return 'Đang mở bán';
@@ -65,14 +73,11 @@ export default function AgencyDatcocmuaban() {
             case 5:
                 return 'Đang chờ phê duyệt bán';
             case 6:
-                return 'Phê duyệt bán thành công';
+                return 'Bán thành công';
             default:
-                return 'Trạng thái không xác định';
+                return 'Đang chờ cập nhật';
         }
     };
-    
-    
-
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         const day = date.getDate();
@@ -85,7 +90,6 @@ export default function AgencyDatcocmuaban() {
         navigate(`/customer/${customerId}/realestate/${realEstateId}`);
     };
 
-    // Filter reservations by the selected date
     const dateFilteredReservations = selectedDate ? bookReservations.filter(reservation => {
         const reservationDate = new Date(reservation.bookingDate);
         return (
@@ -95,7 +99,6 @@ export default function AgencyDatcocmuaban() {
         );
     }) : bookReservations;
 
-    // Further filter by search term if necessary
     const filteredReservations = dateFilteredReservations.filter(reservation =>
         getRealEstateNameById(reservation.realEstateId).toLowerCase().includes(searchTerm.toLowerCase()) ||
         getUsernameByCustomerId(reservation.customerId).toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -133,20 +136,23 @@ export default function AgencyDatcocmuaban() {
                                     <th>Ngày xem</th>
                                     <th>Giờ xem</th>
                                     <th>Người dẫn xem</th>
-                                    <th>Trạng thái</th> {/* Thêm cột trạng thái */}
+                                    <th>Trạng thái</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {filteredReservations.map((reservation, index) => (
-                                    <tr key={index}>
-                                        <td>{getRealEstateNameById(reservation.realEstateId)}</td>
-                                        <td onClick={() => handleCustomerNameClick(reservation.customerId, reservation.realEstateId)}>{getUsernameByCustomerId(reservation.customerId)}</td>
-                                        <td>{formatDate(reservation.bookingDate)}</td>
-                                        <td>{reservation.bookingTime}</td>
-                                        <td>{reservation.agencyId !== null ? getUsernameByCustomerId(reservation.agencyId) : 'Đang cập nhật'}</td>
-                                        <td>{getStatusDescription(reservation.status)}</td>
-                                    </tr>
+                                    getStatusByRealEstateId(reservation.realEstateId) !== 0 && (
+                                        <tr key={index}>
+                                            <td>{getRealEstateNameById(reservation.realEstateId)}</td>
+                                            <td onClick={() => handleCustomerNameClick(reservation.customerId, reservation.realEstateId)}>{getUsernameByCustomerId(reservation.customerId)}</td>
+                                            <td>{formatDate(reservation.bookingDate)}</td>
+                                            <td>{reservation.bookingTime}</td>
+                                            <td>{reservation.agencyId !== null ? getUsernameByCustomerId(reservation.agencyId) : 'Đang cập nhật'}</td>
+                                            <td>{getStatusString(getStatusByRealEstateId(reservation.realEstateId))}</td>
+                                        </tr>
+                                    )
                                 ))}
+
                             </tbody>
                         </table>
                     ) : (
