@@ -92,7 +92,7 @@ export default function CustomerLichsudatdon() {
                                     <td>{formatDate(reservation.bookingDate)}</td>
                                     <td>{reservation.bookingTime}</td>
                                     <td>{getUsernameByCustomerId(reservation.agencyId)}</td>
-                                    <td>{reservation.status}</td>
+                                    <td>{getStatusDescription(reservation.status)}</td>
                                 </tr>
                             ))
                         )}
