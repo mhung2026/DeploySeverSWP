@@ -34,7 +34,7 @@ export default function Customerdondat() {
     const cancelReservation = async (id, reservation) => {
         try {
             const requestData = {
-                status: 0,
+                status: 4,
                 realEstateId: reservation.realEstateId,
                 customerId: reservation.customerId,
                 agencyId: reservation.agencyId,
