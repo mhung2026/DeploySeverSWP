@@ -67,7 +67,7 @@ export default function ReservationDetailPage() {
                         realEstateId: booking.realEstateId, // Sử dụng realEstateId của booking
                         customerId: booking.customerId,
                         agencyId: selectedAgencyId,
-                        status: 1, // Assuming 1 is the new status to be updated
+                        status: 2, // Assuming 1 is the new status to be updated
                         bookingDate: date,
                         bookingTime: timeSlot
                     };

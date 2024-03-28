@@ -12,7 +12,7 @@ export default function AdminViewCompleteBooking() {
         const fetchData = async () => {
             try {
                 const getAllReservation = await CallApi.getAllReservations();
-                const getCompleteRes = getAllReservation.filter(CompleteRes => CompleteRes.status === 2);
+                const getCompleteRes = getAllReservation.filter(CompleteRes => CompleteRes.status === 3);
                 setCompleteRes(getCompleteRes);
                 const callDataRealEstateData = await CallApi.getAllRealEstate();
                 setRealEstates(callDataRealEstateData);

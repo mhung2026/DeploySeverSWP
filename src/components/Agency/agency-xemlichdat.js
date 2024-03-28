@@ -17,7 +17,7 @@ export default function AdminDetailBookingAgen() {
         const fetchData = async () => {
             try {
                 const getAllReservations = await CallApi.getAllReservations();
-                const filteredReservations = getAllReservations.filter(reservation => reservation.status === 1);
+                const filteredReservations = getAllReservations.filter(reservation => reservation.status === 2);
                 const getAgenId = filteredReservations.filter(AgenId => AgenId.agencyId === getAgencyId);
                 setBookReservations(getAgenId);
                 const callDataRealEstateData = await CallApi.getAllRealEstate();
@@ -56,7 +56,7 @@ export default function AdminDetailBookingAgen() {
                     await axios.put(`http://swprealestatev2-001-site1.etempurl.com/api/reservation/UpdateReservation/${reservation.id}`, {
                         realEstateId: reservation.realEstateId,
                         customerId: reservation.customerId,
-                        status: 2,
+                        status: 3,
                         bookingDate: reservation.bookingDate,
                         bookingTime: reservation.bookingTime,
                         agencyId: reservation.agencyId

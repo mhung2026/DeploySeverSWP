@@ -70,7 +70,7 @@ export default function CustomerLichsumuaban() {
             }
 
             // Set status to 2 for cancelling deposit
-            realEstate.status = 2;
+            realEstate.status = 4;
 
             const response = await axios.put(`http://swprealestatev2-001-site1.etempurl.com/api/invester/updatePostById/${realEstate.id}`, realEstate);
 

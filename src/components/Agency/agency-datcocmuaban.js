@@ -23,7 +23,7 @@ export default function AgencyDatcocmuaban() {
         const fetchData = async () => {
             try {
                 const getAllReservations = await CallApi.getAllReservations();
-                const filteredReservations = getAllReservations.filter(reservation => reservation.status === 1 || reservation.status === 2);
+                const filteredReservations = getAllReservations.filter(reservation =>  reservation.status === 2);
                 const getAgenId = filteredReservations.filter(AgenId => AgenId.agencyId === getAgencyId);
                 setBookReservations(getAgenId);
                 const callDataRealEstateData = await CallApi.getAllRealEstate();
@@ -54,25 +54,20 @@ export default function AgencyDatcocmuaban() {
         const account = accounts.find(item => item.id === customerId);
         return account ? account.username : 'Unknown';
     };
-    const getRealEstateStatusById = (realEstateId) => {
-        const realEstate = realEstates.find(item => item.id === realEstateId);
-        if (realEstate) {
-            switch (realEstate.status) {
-                case 2:
-                    return 'Đang xử lý';
-                case 3:
-                    return 'Đang chờ phê duyệt cọc';
-                case 4:
-                    return 'Phê duyệt cọc thành công';
-                case 5:
-                    return 'Đang chờ phê duyệt bán';
-                case 6:
-                    return 'Phê duyệt bán thành công';
-                default:
-                    return 'Trạng thái không xác định';
-            }
-        } else {
-            return 'Không tìm thấy thông tin bất động sản';
+    const getStatusDescription = (status) => {
+        switch (status) {
+            case 2:
+                return 'Đang mở bán';
+            case 3:
+                return 'Đang chờ phê duyệt cọc';
+            case 4:
+                return 'Phê duyệt cọc thành công';
+            case 5:
+                return 'Đang chờ phê duyệt bán';
+            case 6:
+                return 'Phê duyệt bán thành công';
+            default:
+                return 'Trạng thái không xác định';
         }
     };
     
@@ -149,7 +144,7 @@ export default function AgencyDatcocmuaban() {
                                         <td>{formatDate(reservation.bookingDate)}</td>
                                         <td>{reservation.bookingTime}</td>
                                         <td>{reservation.agencyId !== null ? getUsernameByCustomerId(reservation.agencyId) : 'Đang cập nhật'}</td>
-                                        <td>{getRealEstateStatusById(reservation.realEstateId)}</td>
+                                        <td>{getStatusDescription(reservation.status)}</td>
                                     </tr>
                                 ))}
                             </tbody>

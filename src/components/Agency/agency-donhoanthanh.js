@@ -12,7 +12,7 @@ export default function AgencyDonhoanthanh() {
         const fetchData = async () => {
             try {
                 const getAllReservation = await CallApi.getAllReservations();
-                const getCompleteRes = getAllReservation.filter(CompleteRes => CompleteRes.status === 2 && CompleteRes.agencyId === parseInt(userLoginBasicInformationDto.accountId));
+                const getCompleteRes = getAllReservation.filter(CompleteRes => CompleteRes.status === 3 && CompleteRes.agencyId === parseInt(userLoginBasicInformationDto.accountId));
                 setCompleteRes(getCompleteRes);
                 const callDataRealEstateData = await CallApi.getAllRealEstate();
                 setRealEstates(callDataRealEstateData);
