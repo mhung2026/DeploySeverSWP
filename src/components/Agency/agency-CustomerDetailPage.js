@@ -76,6 +76,12 @@ export default function AgencyCustomerDetailPage() {
 
     const sendToSwagger = async () => {
         try {
+            // Check if selectedFiles is not empty
+            if (selectedFiles.length === 0) {
+                toast.error('Vui lòng chọn ít nhất một ảnh trước khi gửi.');
+                return;
+            }
+
             // Upload files to Firebase and collect their URLs
             const firebaseUrls = await Promise.all(selectedFiles.map(uploadFileToFirebase));
 
@@ -127,6 +133,12 @@ export default function AgencyCustomerDetailPage() {
     // Function to handle marking property as sold
     const markAsSold = async () => {
         try {
+            // Check if selectedFiles is not empty
+            if (selectedFiles.length === 0) {
+                toast.error('Vui lòng chọn ít nhất một ảnh trước khi đánh dấu là đã bán.');
+                return;
+            }
+
             const accessToken = localStorage.getItem('accessToken');
             const firebaseUrls = await Promise.all(selectedFiles.map(uploadFileToFirebase));
             // Create requestData with status 5
@@ -252,8 +264,8 @@ export default function AgencyCustomerDetailPage() {
                 </div>
             )}
             {/* Conditionally render buttons */}
-            {!status3 && !sold && <button onClick={sendToSwagger} style={{ backgroundColor: "#35CB6D" }}>Khách hàng chọn cọc</button>}
-            {!sold && !sold && <button onClick={markAsSold} style={{ backgroundColor: "#35CB6D" }}>Khách hàng chọn bán</button>}
+            {!status3 && !sold && selectedFiles.length > 0 && <button onClick={sendToSwagger} style={{ backgroundColor: "#35CB6D" }}>Khách hàng chọn cọc</button>}
+            {!sold && !sold && selectedFiles.length > 0 && <button onClick={markAsSold} style={{ backgroundColor: "#35CB6D" }}>Khách hàng chọn bán</button>}
         </div>
     );
 }
