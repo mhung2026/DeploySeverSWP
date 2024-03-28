@@ -17,7 +17,7 @@ export default function CustomerLichsudatdon() {
         async function fetchData() {
             try {
                 const callDataReservations = await CallApi.getAllReservations();
-                const filteredReservations = callDataReservations.filter(reservation => reservation.status === 3 && reservation.customerId === customerId);
+                const filteredReservations = callDataReservations.filter(reservation => (reservation.status === 3 ||reservation.status === 4 )&& reservation.customerId === customerId);
                 setCustomerReservation(filteredReservations);
                 const callDataRealEstateData = await CallApi.getAllRealEstate();
                 setRealEstates(callDataRealEstateData);
@@ -31,7 +31,16 @@ export default function CustomerLichsudatdon() {
         fetchData();
     }, [customerId]);
 
-
+    const getStatusDescription = (status) => {
+        switch (status) {
+            case 3:
+                return 'Đã hoàn thành';
+            case 4:
+                return 'Đã hủy';
+            default:
+                return 'Đang cập nhật';
+        }
+    };
     const getRealEstateNameById = (realEstateId) => {
         const realEstate = realEstates.find(item => item.id === realEstateId);
         return realEstate ? realEstate.realestateName : 'Unknown';
@@ -83,7 +92,7 @@ export default function CustomerLichsudatdon() {
                                     <td>{formatDate(reservation.bookingDate)}</td>
                                     <td>{reservation.bookingTime}</td>
                                     <td>{getUsernameByCustomerId(reservation.agencyId)}</td>
-                                    <td>{reservation.status === 2 ? 'Đã hoàn thành' : 'Chưa hoàn thành'}</td>
+                                    <td>{reservation.status}</td>
                                 </tr>
                             ))
                         )}
